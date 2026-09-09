@@ -31,42 +31,6 @@ export const ShowcasePanel: React.FC = () => {
   const [estateSearch, setEstateSearch] = useState<string>('');
   const [keywordSearch, setKeywordSearch] = useState<string>('');
 
-  // 3D Parallax Tilt State for the Search Floating Island
-  const islandRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState<{ rotateX: number; rotateY: number; shadowX: number; shadowY: number }>({
-    rotateX: 0,
-    rotateY: 0,
-    shadowX: 0,
-    shadowY: 10,
-  });
-
-  const handleIslandMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!islandRef.current) return;
-    const rect = islandRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const percentX = (x - centerX) / centerX;
-    const percentY = (y - centerY) / centerY;
-
-    setTilt({
-      rotateX: -percentY * 6, // max 6 deg
-      rotateY: percentX * 6,  // max 6 deg
-      shadowX: -percentX * 14,
-      shadowY: -percentY * 14 + 12,
-    });
-  };
-
-  const handleIslandMouseLeave = () => {
-    setTilt({
-      rotateX: 0,
-      rotateY: 0,
-      shadowX: 0,
-      shadowY: 10,
-    });
-  };
-
   const filteredProperties = useMemo(() => {
     return properties.filter((p) => {
       if (selectedCounty !== null && p.countyCode !== selectedCounty) {
@@ -324,21 +288,10 @@ export const ShowcasePanel: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. THE "FLOATING ISLAND" SEARCH WITH 3D HOVER PARALLAX (Task 1) */}
+      {/* 3. SEARCH KENYAN PROPERTIES BY COUNTY & ESTATE */}
       {/* ========================================================================= */}
-      <section id="search-explore-island" className="perspective-1000 space-y-6">
-        <motion.div
-          ref={islandRef}
-          onMouseMove={handleIslandMouseMove}
-          onMouseLeave={handleIslandMouseLeave}
-          animate={{
-            rotateX: tilt.rotateX,
-            rotateY: tilt.rotateY,
-            boxShadow: `${tilt.shadowX}px ${tilt.shadowY}px 36px rgba(0, 0, 0, 0.08)`,
-          }}
-          transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-          className="transform-style-3d bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl rounded-[2rem] border border-neutral-200/90 dark:border-neutral-800 p-6 sm:p-8 space-y-5"
-        >
+      <section id="search-explore-island" className="space-y-6">
+        <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8 space-y-5 shadow-xs transition-colors">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-neutral-100 dark:border-neutral-800 pb-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -462,7 +415,7 @@ export const ShowcasePanel: React.FC = () => {
               </button>
             )}
           </div>
-        </motion.div>
+        </div>
 
         {/* ========================================================================= */}
         {/* 4. ENTRANCE CHOREOGRAPHY PROPERTY GRID (Task 2) */}

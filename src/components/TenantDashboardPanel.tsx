@@ -10,7 +10,6 @@ import {
   PlusCircle,
   FileText,
   Clock,
-  ArrowRight,
   DollarSign,
   Droplets,
   Lock,
@@ -20,9 +19,12 @@ import {
   AlertTriangle,
   Send,
   Building,
-  Calendar,
   Layers,
   Award,
+  LogOut,
+  Trash2,
+  Key,
+  Shield,
 } from 'lucide-react';
 
 const VECTOR_ICONS: Record<FrictionVectorKey, React.ComponentType<{ className?: string }>> = {
@@ -44,13 +46,18 @@ export const TenantDashboardPanel: React.FC = () => {
     submitReview,
     setActivePanel,
     switchPersona,
+    logoutUser,
+    rightToBeForgotten,
   } = useAppState();
 
   // Active Tab State inside Dashboard
-  const [activeTab, setActiveTab] = useState<'overview' | 'submit' | 'verification' | 'disputes'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'submit' | 'verification' | 'disputes' | 'account'>('overview');
 
   // Filter state for authored reviews
   const [reviewFilter, setReviewFilter] = useState<'all' | 'active' | 'disputed'>('all');
+
+  // Account deletion confirmation modal state
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   // If no user is logged in, show onboarding prompt
   if (!currentUser) {
@@ -64,8 +71,8 @@ export const TenantDashboardPanel: React.FC = () => {
             Simulated Tenant Session Required
           </h2>
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-md mx-auto leading-relaxed">
-            You are currently browsing as a Guest. Log in or select an instant demo tenant persona to access the Tenant
-            Dashboard and write an M-Pesa verified review.
+            You are currently browsing as a Guest. Log in or select an instant demo tenant persona to access your
+            personalized Tenant Dashboard, post reviews, and manage account security.
           </p>
         </div>
 
@@ -219,7 +226,8 @@ export const TenantDashboardPanel: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
+          {/* Header Action Buttons: Membership, Settings, and Direct Log Out */}
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
             <button
               type="button"
               onClick={() => setActivePanel('pricing')}
@@ -228,12 +236,24 @@ export const TenantDashboardPanel: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5" />
               <span>Shield Membership</span>
             </button>
+
             <button
               type="button"
-              onClick={() => setActivePanel('settings')}
-              className="px-3.5 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              onClick={() => setActiveTab('account')}
+              className="px-3.5 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors flex items-center gap-1.5"
             >
-              Privacy
+              <Lock className="w-3.5 h-3.5 text-neutral-500" />
+              <span>Security</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={logoutUser}
+              className="px-3.5 py-2 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/60 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 font-bold text-xs hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors flex items-center gap-1.5"
+              title="Log out of this account"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Log Out</span>
             </button>
           </div>
         </div>
@@ -339,6 +359,19 @@ export const TenantDashboardPanel: React.FC = () => {
               {disputedReviews.length}
             </span>
           )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('account')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+            activeTab === 'account'
+              ? 'bg-emerald-600 text-white shadow-sm'
+              : 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+          }`}
+        >
+          <Lock className="w-4 h-4" />
+          <span>Account &amp; Security</span>
         </button>
       </div>
 
@@ -929,6 +962,137 @@ export const TenantDashboardPanel: React.FC = () => {
               })}
             </div>
           )}
+        </div>
+      )}
+
+      {/* 7. TAB 5: ACCOUNT & SECURITY (LOGOUT & DELETE ACCOUNT) */}
+      {activeTab === 'account' && (
+        <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="border-b border-neutral-100 dark:border-neutral-800 pb-4">
+            <h2 className="text-lg font-black text-neutral-900 dark:text-white flex items-center gap-2">
+              <Lock className="w-5 h-5 text-emerald-600" />
+              <span>Account Security &amp; Session Management</span>
+            </h2>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
+              Manage your active tenant session, inspect cryptographic credentials, or permanently erase your account data.
+            </p>
+          </div>
+
+          {/* Active Credentials Card */}
+          <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200/80 dark:border-neutral-700/80 space-y-3 font-mono text-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 pb-2 border-b border-neutral-200 dark:border-neutral-700">
+              <span className="text-neutral-500 dark:text-neutral-400 text-[11px]">Active Persona:</span>
+              <span className="font-bold text-neutral-900 dark:text-white text-sm">{currentUser.pseudonym}</span>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-neutral-500 dark:text-neutral-400 text-[11px] block">Irreversible SHA-256 Identity Fingerprint:</span>
+              <div className="bg-white dark:bg-neutral-900 px-3 py-2 rounded-xl text-neutral-800 dark:text-neutral-200 break-all text-[11px] border border-neutral-200 dark:border-neutral-800">
+                {currentUser.identityFingerprint}
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-wrap items-center justify-between text-[11px] text-neutral-500">
+              <span>Account Joined: {new Date(currentUser.joinedAt).toLocaleDateString()}</span>
+              <span>Encrypted Partition: AES-256-GCM Enclave</span>
+            </div>
+          </div>
+
+          {/* Two Prominent Action Cards: Log Out & Delete Account */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {/* Log Out Action Card */}
+            <div className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-3 flex flex-col justify-between">
+              <div className="space-y-1.5">
+                <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 flex items-center justify-center">
+                  <LogOut className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-neutral-900 dark:text-white">
+                  End Current Session (Log Out)
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  Log out of <strong>{currentUser.pseudonym}</strong> on this browser. You can log back in anytime using
+                  your pseudonym or demo switcher.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={logoutUser}
+                className="w-full py-2.5 px-4 rounded-xl border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 mt-3"
+              >
+                <LogOut className="w-3.5 h-3.5 text-neutral-500" />
+                <span>Log Out Now</span>
+              </button>
+            </div>
+
+            {/* Permanent Erasure / Delete Account Card */}
+            <div className="p-5 rounded-2xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/40 dark:bg-rose-950/20 space-y-3 flex flex-col justify-between">
+              <div className="space-y-1.5">
+                <div className="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/60 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                  <Trash2 className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-rose-950 dark:text-rose-200">
+                  Delete Account &amp; Shred All Reviews
+                </h3>
+                <p className="text-xs text-rose-800 dark:text-rose-300 leading-relaxed">
+                  Permanently erase your account, destroy cryptographic enclave keys, and delete all reviews authored by{' '}
+                  <strong>{currentUser.pseudonym}</strong>. This cannot be undone.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsDeleteModalOpen(true)}
+                className="w-full py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-xs transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-3"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Account &amp; Data</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 8. DELETE ACCOUNT CONFIRMATION MODAL */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-neutral-950/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in zoom-in-95">
+            <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+              <Trash2 className="w-6 h-6" />
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-lg font-black text-neutral-900 dark:text-white">
+                Permanently Delete Account?
+              </h3>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Are you sure you want to permanently erase the account for <strong>{currentUser.pseudonym}</strong>?
+                This action executes a cryptographic shredder that permanently destroys all stored vectors, PII fingerprints,
+                and deletes all reviews you authored. This cannot be undone.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  rightToBeForgotten(currentUser.id);
+                }}
+                className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md transition-all active:scale-[0.98] flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Yes, Permanently Delete Everything</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

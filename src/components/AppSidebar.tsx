@@ -17,6 +17,7 @@ import {
   X,
   Zap,
   Users,
+  LogOut,
 } from 'lucide-react';
 
 interface AppSidebarProps {
@@ -38,6 +39,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     activePanel,
     setActivePanel,
     currentUser,
+    logoutUser,
     switchPersona,
     disputes,
     reviews,
@@ -239,6 +241,21 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                     {currentUser.id === 'usr-001' ? 'KilimaniTenant14' : 'RoysambuRenter82'}
                   </button>
                 </div>
+              </div>
+
+              {/* Log Out Button */}
+              <div className="pt-1 border-t border-neutral-200 dark:border-neutral-700/60">
+                <button
+                  type="button"
+                  onClick={() => {
+                    logoutUser();
+                    onCloseMobile();
+                  }}
+                  className="w-full py-1 px-2 rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors border border-rose-200/60 dark:border-rose-900/40"
+                >
+                  <LogOut className="w-3 h-3" />
+                  <span>Log Out</span>
+                </button>
               </div>
             </div>
           ) : (
