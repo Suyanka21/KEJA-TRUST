@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import { useAppState } from '../context/AppStateContext';
-import { DisputeTicket, Review } from '../types';
+import { DisputeTicket } from '../types';
 import { GoldVerifiedBadge } from './GoldVerifiedBadge';
 import {
   Scale,
   ShieldAlert,
   Clock,
-  CheckCircle2,
-  FileCheck,
-  AlertTriangle,
-  Building,
   Upload,
-  User,
   ShieldCheck,
-  Sparkles,
-  ArrowRight,
-  Info,
 } from 'lucide-react';
 import { validateKenyaPoliceOb, validateEarbLicense } from '../utils/cryptoSim';
 
@@ -26,8 +18,6 @@ export const DisputeCenterPanel: React.FC = () => {
     disputes,
     fileDispute,
     rebutDispute,
-    setActivePanel,
-    setSelectedPropertyId,
   } = useAppState();
 
   // Form State

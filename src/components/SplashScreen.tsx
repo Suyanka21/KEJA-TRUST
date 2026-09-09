@@ -2,18 +2,13 @@ import React from 'react';
 import { useAppState } from '../context/AppStateContext';
 import {
   ShieldCheck,
-  Lock,
   Scale,
   Sparkles,
   ArrowRight,
   UserCheck,
-  CheckCircle2,
   Building,
-  Droplets,
   Coins,
-  FileCheck,
   ChevronRight,
-  Shield,
   EyeOff,
   Search,
 } from 'lucide-react';

@@ -25,6 +25,7 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    CheckConstraint,
     Uuid as PG_UUID,
     LargeBinary as BYTEA,
 )
@@ -168,6 +169,17 @@ class Review(Base):
     tenancy_end_year: Mapped[Optional[int]] = mapped_column(SmallInteger, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    __table_args__ = (
+        CheckConstraint("rating_deposit_refund >= 1 AND rating_deposit_refund <= 5", name="chk_deposit_refund_1_5"),
+        CheckConstraint("rating_water_utilities >= 1 AND rating_water_utilities <= 5", name="chk_water_utilities_1_5"),
+        CheckConstraint("rating_security_privacy >= 1 AND rating_security_privacy <= 5", name="chk_security_privacy_1_5"),
+        CheckConstraint("rating_eviction_fairness >= 1 AND rating_eviction_fairness <= 5", name="chk_eviction_fairness_1_5"),
+        CheckConstraint("rating_management_responsiveness >= 1 AND rating_management_responsiveness <= 5", name="chk_management_responsiveness_1_5"),
+        CheckConstraint("tenancy_start_year >= 2000 AND tenancy_start_year <= 2030", name="chk_tenancy_start_year_range"),
+        UniqueConstraint("user_id", "property_id", name="uq_user_property_review"),
+        Index("ix_reviews_property_lifecycle", "property_id", "lifecycle_status"),
+    )
 
     property: Mapped["Property"] = relationship("Property", back_populates="reviews")
     lease_verification: Mapped[Optional["VerifiedLease"]] = relationship("VerifiedLease", back_populates="reviews")

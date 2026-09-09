@@ -5,8 +5,6 @@ import {
   Scale,
   Clock,
   ShieldCheck,
-  AlertTriangle,
-  Lock,
 } from 'lucide-react';
 import { DisputeNotice } from '../types';
 

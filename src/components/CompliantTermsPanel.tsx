@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import {
   Scale,
-  ShieldCheck,
-  FileText,
   AlertOctagon,
   Lock,
-  BookOpen,
-  CheckCircle2,
-  ExternalLink,
 } from 'lucide-react';
 
 export const CompliantTermsPanel: React.FC = () => {

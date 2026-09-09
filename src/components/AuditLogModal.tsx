@@ -9,7 +9,6 @@ import {
   CheckCircle,
   FileCode,
   Clock,
-  Hash,
   Database,
 } from 'lucide-react';
 

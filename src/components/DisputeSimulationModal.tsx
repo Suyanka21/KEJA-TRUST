@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Review } from '../types';
-import { Scale, X, AlertTriangle, ShieldCheck, FileText, CheckCircle2 } from 'lucide-react';
+import { Scale, X } from 'lucide-react';
 
 interface DisputeSimulationModalProps {
   review: Review;

@@ -91,6 +91,58 @@ cors_origins_env = os.getenv(
 allowed_origins = [orig.strip() for orig in cors_origins_env.split(",") if orig.strip()]
 allow_creds = "*" not in allowed_origins
 
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
+import time
+from collections import defaultdict
+
+
+class RateLimitMiddleware(BaseHTTPMiddleware):
+    """
+    In-memory sliding window rate limiter.
+    Limits request rates by client IP to prevent brute force, denial of service,
+    and automated review stuffing (Audit finding [11]).
+    """
+    def __init__(self, app, max_requests: int = 120, window_seconds: int = 60):
+        super().__init__(app)
+        self.max_requests = max_requests
+        self.window_seconds = window_seconds
+        self.requests = defaultdict(list)
+
+    async def dispatch(self, request, call_next):
+        if request.url.path == "/api/health":
+            return await call_next(request)
+
+        client_ip = request.client.host if request.client else "127.0.0.1"
+        now = time.time()
+        window_start = now - self.window_seconds
+
+        recent_requests = [ts for ts in self.requests[client_ip] if ts > window_start]
+
+        path = request.url.path
+        limit = self.max_requests
+        if "/reviews/submit" in path:
+            limit = 20
+        elif "/disputes/file" in path:
+            limit = 10
+
+        if len(recent_requests) >= limit:
+            return JSONResponse(
+                status_code=429,
+                content={
+                    "detail": "Rate limit exceeded. Too many requests. Please try again later.",
+                    "retry_after_seconds": int(self.window_seconds - (now - recent_requests[0])),
+                },
+                headers={"Retry-After": str(int(self.window_seconds))},
+            )
+
+        recent_requests.append(now)
+        self.requests[client_ip] = recent_requests
+        return await call_next(request)
+
+
+app.add_middleware(RateLimitMiddleware)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,

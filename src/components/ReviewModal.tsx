@@ -11,9 +11,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Building,
-  Calendar,
   Banknote,
-  Home,
 } from 'lucide-react';
 
 interface ReviewModalProps {
@@ -116,8 +114,16 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
     };
 
     setTimeout(() => {
-      onSubmit(payload);
-      setIsSubmitting(false);
+      try {
+        onSubmit(payload);
+      } catch (err: any) {
+        setFormErrors((prev) => ({
+          ...prev,
+          commentTitle: err.message || 'Submission failed.',
+        }));
+      } finally {
+        setIsSubmitting(false);
+      }
     }, 350);
   };
 

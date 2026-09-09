@@ -13,7 +13,6 @@ import {
   Property,
   Review,
   ReviewSubmissionPayload,
-  DisputeTicket,
 } from '../types';
 
 const metaEnv = (import.meta as { env?: Record<string, string> }).env;

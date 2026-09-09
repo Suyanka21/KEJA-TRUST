@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppState } from '../context/AppStateContext';
 import { FrictionVectorKey, FrictionScores, ReviewSubmissionPayload } from '../types';
-import { FRICTION_VECTORS, getScoreColor, formatKenyanCurrency } from '../utils/frictionVectors';
+import { FRICTION_VECTORS, getScoreColor } from '../utils/frictionVectors';
 import { GoldVerifiedBadge } from './GoldVerifiedBadge';
 import {
   User,
@@ -9,9 +9,6 @@ import {
   Sparkles,
   PlusCircle,
   FileText,
-  Building,
-  CheckCircle2,
-  AlertTriangle,
   Clock,
   ArrowRight,
   DollarSign,
@@ -19,7 +16,6 @@ import {
   Lock,
   Scale,
   Wrench,
-  HelpCircle,
 } from 'lucide-react';
 
 const VECTOR_ICONS: Record<FrictionVectorKey, React.ComponentType<{ className?: string }>> = {
@@ -35,7 +31,6 @@ const HOUSE_TYPES = ['Bedsitter', 'Studio', '1-Bedroom', '2-Bedroom', '3-Bedroom
 export const TenantDashboardPanel: React.FC = () => {
   const {
     currentUser,
-    users,
     properties,
     reviews,
     selectedPropertyId,

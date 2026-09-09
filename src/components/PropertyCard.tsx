@@ -4,7 +4,6 @@ import { Property, FrictionVectorKey } from '../types';
 import { FRICTION_VECTORS, getScoreColor } from '../utils/frictionVectors';
 import {
   MapPin,
-  ShieldCheck,
   Star,
   ChevronRight,
   PlusCircle,

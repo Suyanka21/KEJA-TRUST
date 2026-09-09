@@ -10,13 +10,10 @@ import {
   Search,
   Building,
   Sparkles,
-  ArrowRight,
   AlertOctagon,
   Award,
   ChevronDown,
-  Layers,
   Flame,
-  CheckCircle,
 } from 'lucide-react';
 
 const POPULAR_ESTATES = ['Kilimani', 'Roysambu', 'Westlands', "Lang'ata", 'Ruaka', 'Nyali', 'South B', 'Parklands'];

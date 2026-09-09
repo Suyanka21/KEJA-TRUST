@@ -14,16 +14,10 @@ import { DisputeSimulationModal } from './components/DisputeSimulationModal';
 import { TenantRebuttalModal } from './components/TenantRebuttalModal';
 import { AuditLogModal } from './components/AuditLogModal';
 import { CryptographicLogModal } from './components/CryptographicLogModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import {
-  ShieldCheck,
-  Scale,
-  Lock,
-  Building,
   CheckCircle,
   FileCheck,
-  ExternalLink,
-  ChevronRight,
-  Wifi,
 } from 'lucide-react';
 
 const AppContent: React.FC = () => {
@@ -37,7 +31,6 @@ const AppContent: React.FC = () => {
     toastMessage,
     lastCryptoPartitionEvent,
     dismissCryptoPartitionModal,
-    dataSaverMode,
     submitReview,
     fileDispute,
     rebutDispute,
@@ -213,8 +206,10 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <AppStateProvider>
-      <AppContent />
-    </AppStateProvider>
+    <ErrorBoundary>
+      <AppStateProvider>
+        <AppContent />
+      </AppStateProvider>
+    </ErrorBoundary>
   );
 }

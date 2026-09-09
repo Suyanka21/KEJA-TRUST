@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   X,
   Copy,
-  ExternalLink,
 } from 'lucide-react';
 
 interface CryptographicLogModalProps {
@@ -18,6 +17,7 @@ interface CryptographicLogModalProps {
 
 export const CryptographicLogModal: React.FC<CryptographicLogModalProps> = ({ log, onClose }) => {
   const [copied, setCopied] = React.useState<boolean>(false);
+  const [acknowledged, setAcknowledged] = React.useState<boolean>(false);
 
   const handleCopyHash = () => {
     navigator.clipboard.writeText(log.identityFingerprint);
@@ -122,15 +122,30 @@ export const CryptographicLogModal: React.FC<CryptographicLogModalProps> = ({ lo
           </p>
         </div>
 
+        {/* Explicit Acknowledgment Gate (Finding [16]) */}
+        <label className="flex items-start gap-2.5 text-xs text-neutral-600 dark:text-neutral-300 cursor-pointer select-none bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700">
+          <input
+            id="acknowledge-partition-checkbox"
+            type="checkbox"
+            checked={acknowledged}
+            onChange={(e) => setAcknowledged(e.target.checked)}
+            className="mt-0.5 rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+          />
+          <span>
+            I understand that my identity is permanently partitioned into a pseudonymous fingerprint and that my reviews are published exclusively under <strong>{log.pseudonym}</strong>.
+          </span>
+        </label>
+
         {/* Action Button */}
         <div className="pt-2">
           <button
             id="dismiss-crypto-modal-btn"
             type="button"
+            disabled={!acknowledged}
             onClick={onClose}
-            className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all active:scale-[0.99]"
+            className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            I Understand My Identity is Protected · Proceed
+            I Acknowledge &amp; Understand · Proceed to Dashboard
           </button>
         </div>
       </div>

@@ -14,10 +14,6 @@ import {
   Sparkles,
   Info,
   LogOut,
-  Hash,
-  Database,
-  FileCode,
-  CheckCircle2,
 } from 'lucide-react';
 
 export const MockAuthGatePanel: React.FC = () => {
@@ -53,7 +49,7 @@ export const MockAuthGatePanel: React.FC = () => {
     }
 
     try {
-      const user = registerUser(pseudonym, email, phone);
+      registerUser(pseudonym, email, phone);
       // After registration, AppStateContext triggers lastCryptoPartitionEvent modal
     } catch (err: any) {
       setErrorMessage(err.message || 'Registration failed.');

@@ -16,7 +16,6 @@ import {
   DollarSign,
   Droplets,
   Wrench,
-  Sparkles,
 } from 'lucide-react';
 
 interface ReviewFeedProps {

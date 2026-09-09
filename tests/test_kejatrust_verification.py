@@ -320,7 +320,7 @@ class TestSafaricomDarajaAntiFraud(unittest.TestCase):
             self.assertIsNone(regex.match(tid), f"Invalid TransID falsely accepted: {tid}")
 
     def test_msisdn_daraja_regex_validation_rules(self):
-        """
+        r"""
         ASSERTION: MSISDN in C2B webhook must strictly conform to ^254[17]\d{8}$.
         """
         valid_msisdns = ["254712345678", "254722000111", "254110123456", "254100987654"]

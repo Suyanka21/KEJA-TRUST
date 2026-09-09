@@ -75,7 +75,7 @@ async def process_expired_cap36_disputes():
             logger.info("Cap 36 Audit: %d expired disputes transitioned to archived_defamatory.", count)
             return count
     except Exception as e:
-        logger.warning("Worker cycle fallback (in-memory or standalone mode): %s", e)
+        logger.error("Cap 36 Dispute worker execution failure: %s", e, exc_info=True)
         return 0
 
 
@@ -107,7 +107,7 @@ async def shred_expired_odpc_tokens():
                 return len(tickets)
             return 0
     except Exception as e:
-        logger.warning("ODPC Shredder cycle notice: %s", e)
+        logger.error("ODPC Shredder worker execution failure: %s", e, exc_info=True)
         return 0
 
 

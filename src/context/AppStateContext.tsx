@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
 import {
   Property,
   Review,
@@ -7,7 +7,6 @@ import {
   CryptographicPartitionLog,
   ActivePanel,
   ReviewSubmissionPayload,
-  ReviewLifecycleStatus,
 } from '../types';
 import {
   INITIAL_PROPERTIES,
@@ -347,6 +346,47 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Submit Review (Panel 3)
   const submitReview = (payload: ReviewSubmissionPayload): Review => {
+    // 1. Prevent duplicate reviews per user per property (Audit finding [13])
+    if (currentUser) {
+      const existing = reviews.find(
+        (r) => r.propertyId === payload.propertyId && r.authorUserId === currentUser.id
+      );
+      if (existing) {
+        const errMsg = 'Duplicate Review Blocked: You have already submitted a review for this property.';
+        showToast(errMsg);
+        throw new Error(errMsg);
+      }
+    }
+
+    // 2. Validate rating bounds (1 to 5) (Audit finding [12] & Gate 1)
+    const ratingKeys = [
+      'depositRefund',
+      'waterUtilities',
+      'securityPrivacy',
+      'evictionFairness',
+      'managementResponsiveness',
+    ] as const;
+    for (const key of ratingKeys) {
+      const val = payload.ratings[key];
+      if (typeof val !== 'number' || val < 1 || val > 5) {
+        const errMsg = `Rating for ${String(key)} must be an integer between 1 and 5.`;
+        showToast(errMsg);
+        throw new Error(errMsg);
+      }
+    }
+
+    // 3. Validate comment length bounds (Gate 1)
+    if (!payload.commentTitle || payload.commentTitle.trim().length < 4) {
+      const errMsg = 'Review headline must be at least 4 characters.';
+      showToast(errMsg);
+      throw new Error(errMsg);
+    }
+    if (!payload.commentText || payload.commentText.trim().length < 20) {
+      const errMsg = 'Review details must be at least 20 characters.';
+      showToast(errMsg);
+      throw new Error(errMsg);
+    }
+
     const hasValidMpesa = Boolean(
       payload.mpesaReceiptCode && validateMpesaCode(payload.mpesaReceiptCode)
     );
@@ -358,7 +398,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       authorPseudonym = generatePseudonym(targetProp?.estateName || 'Kenya');
     }
 
-    const reviewId = `rev-${Date.now()}`;
+    // Collision-proof UUID generation (Scenario 3)
+    const reviewId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? `rev-${crypto.randomUUID()}`
+      : `rev-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
     const newReview: Review = {
       id: reviewId,
       propertyId: payload.propertyId,
@@ -367,8 +411,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       isVerifiedTenant: hasValidMpesa,
       lifecycleStatus: 'active',
       ratings: payload.ratings,
-      commentTitle: payload.commentTitle,
-      commentText: payload.commentText,
+      commentTitle: payload.commentTitle.trim(),
+      commentText: payload.commentText.trim(),
       monthlyRentPaid: payload.monthlyRentPaid,
       houseType: payload.houseType,
       tenancyStartYear: payload.tenancyStartYear,
@@ -625,8 +669,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     // Purge user from users collection
     setUsers((prev) => prev.filter((u) => u.id !== userId));
 
-    // Remove all reviews authored by this user locally
-    setReviews((prev) => prev.filter((r) => r.authorUserId !== userId && r.authorPseudonym !== pseudonym));
+    // Remove all reviews authored by this user locally from fresh state
+    const updatedReviews = reviews.filter(
+      (r) => r.authorUserId !== userId && r.authorPseudonym !== pseudonym
+    );
+    setReviews(updatedReviews);
 
     // Asynchronously dispatch statutory erasure to FastAPI backend (HIGH-14)
     apiClient.forgetTenant(pseudonym, userId)
@@ -637,25 +684,33 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         console.warn('Backend erasure sync notice:', err.message);
       });
 
-    // Recalculate all property counts and scores after reviews removal
+    // Recalculate all property counts and scores from freshly computed reviews (Fix finding [14])
     setProperties((prev) =>
       prev.map((prop) => {
-        const remainingPropReviews = reviews.filter(
-          (r) => r.propertyId === prop.id && r.authorUserId !== userId && r.authorPseudonym !== pseudonym
+        const propActiveReviews = updatedReviews.filter(
+          (r) => r.propertyId === prop.id && r.lifecycleStatus === 'active'
         );
-        const total = remainingPropReviews.length;
+        const total = propActiveReviews.length;
         if (total === 0) {
           return {
             ...prop,
             reviewCount: 0,
             overallScore: 0,
+            verifiedTenantCount: 0,
+            scores: {
+              depositRefund: 0,
+              waterUtilities: 0,
+              securityPrivacy: 0,
+              evictionFairness: 0,
+              managementResponsiveness: 0,
+            },
           };
         }
-        const sumDeposit = remainingPropReviews.reduce((acc, r) => acc + r.ratings.depositRefund, 0);
-        const sumWater = remainingPropReviews.reduce((acc, r) => acc + r.ratings.waterUtilities, 0);
-        const sumSecurity = remainingPropReviews.reduce((acc, r) => acc + r.ratings.securityPrivacy, 0);
-        const sumEviction = remainingPropReviews.reduce((acc, r) => acc + r.ratings.evictionFairness, 0);
-        const sumManagement = remainingPropReviews.reduce((acc, r) => acc + r.ratings.managementResponsiveness, 0);
+        const sumDeposit = propActiveReviews.reduce((acc, r) => acc + r.ratings.depositRefund, 0);
+        const sumWater = propActiveReviews.reduce((acc, r) => acc + r.ratings.waterUtilities, 0);
+        const sumSecurity = propActiveReviews.reduce((acc, r) => acc + r.ratings.securityPrivacy, 0);
+        const sumEviction = propActiveReviews.reduce((acc, r) => acc + r.ratings.evictionFairness, 0);
+        const sumManagement = propActiveReviews.reduce((acc, r) => acc + r.ratings.managementResponsiveness, 0);
 
         const newScores = {
           depositRefund: parseFloat((sumDeposit / total).toFixed(1)),
@@ -681,7 +736,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           scores: newScores,
           overallScore: overall,
           reviewCount: total,
-          verifiedTenantCount: remainingPropReviews.filter((r) => r.isVerifiedTenant).length,
+          verifiedTenantCount: propActiveReviews.filter((r) => r.isVerifiedTenant).length,
         };
       })
     );
