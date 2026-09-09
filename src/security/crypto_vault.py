@@ -15,6 +15,7 @@ import hmac
 import base64
 import hashlib
 import logging
+import re
 import secrets
 from typing import Tuple, Dict, Any, Optional
 
@@ -22,6 +23,7 @@ try:
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     HAS_CRYPTOGRAPHY = True
 except ImportError:
+    AESGCM = None  # type: ignore[assignment,misc]
     HAS_CRYPTOGRAPHY = False
 
 
@@ -103,12 +105,16 @@ class CryptographicVault:
                 self._master_key = base64.urlsafe_b64decode(env_key.encode("utf-8"))
             else:
                 # Generate an ephemeral 256-bit key for runtime verification if not configured
-                self._master_key = AESGCM.generate_key(bit_length=256) if HAS_CRYPTOGRAPHY else os.urandom(32)
+                self._master_key = (
+                    AESGCM.generate_key(256)
+                    if (HAS_CRYPTOGRAPHY and AESGCM is not None)
+                    else os.urandom(32)
+                )
 
         if len(self._master_key) != 32:
             raise ValueError(f"Master key must be strictly 256 bits (32 bytes). Received {len(self._master_key)} bytes.")
 
-        if HAS_CRYPTOGRAPHY:
+        if HAS_CRYPTOGRAPHY and AESGCM is not None:
             self._aesgcm = AESGCM(self._master_key)
         else:
             self._aesgcm = None

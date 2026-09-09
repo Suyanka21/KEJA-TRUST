@@ -66,6 +66,17 @@ const AppContent: React.FC = () => {
         </div>
       )}
 
+      {/* Investor Showcase / AI Capability Demonstration Ribbon */}
+      <div
+        id="investor-showcase-ribbon"
+        className="bg-blue-900/90 text-blue-100 text-[11px] sm:text-xs py-1.5 px-4 text-center font-medium border-b border-blue-800 flex items-center justify-center gap-2 select-none"
+      >
+        <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+        <span>
+          <strong>Investor Showcase Prototype:</strong> Demonstrating autonomous AI agent engineering. Simulated auth and in-memory storage (no live DB or real auth).
+        </span>
+      </div>
+
       {/* Main Navbar */}
       <Navbar />
 

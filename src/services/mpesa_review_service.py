@@ -22,34 +22,15 @@ from decimal import Decimal
 from typing import Optional, Tuple, List, Dict, Any
 from uuid import UUID
 
-try:
-    from sqlalchemy import select, update, and_
-    from sqlalchemy.ext.asyncio import AsyncSession
-    from sqlalchemy.exc import IntegrityError
-    from src.db.models import Property, VerifiedLease, Review
-    HAS_SQLALCHEMY = True
-except ImportError:
-    HAS_SQLALCHEMY = False
-    AsyncSession = Any
-    Property = Any
-    VerifiedLease = Any
-    Review = Any
-
-try:
-    from src.schemas.mpesa_review import (
-        DarajaC2BWebhookPayload,
-        ReviewCreateRequest,
-        LeaseDocumentParseResult,
-    )
-except ImportError:
-    from src.schemas.mpesa_review_pure import (
-        PureDarajaC2BWebhookPayload as DarajaC2BWebhookPayload,
-        PureReviewCreateRequest as ReviewCreateRequest,
-    )
-    class LeaseDocumentParseResult:
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
+from sqlalchemy import select, update, and_
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError
+from src.db.models import Property, VerifiedLease, Review
+from src.schemas.mpesa_review import (
+    DarajaC2BWebhookPayload,
+    ReviewCreateRequest,
+    LeaseDocumentParseResult,
+)
 from src.security.crypto_vault import CryptographicVault, logger
 
 

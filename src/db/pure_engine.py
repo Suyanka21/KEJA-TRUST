@@ -133,7 +133,7 @@ class PureGeoPropertyEngine:
         cur = self.conn.cursor()
         cur.execute("INSERT INTO estates (county_id, name, sub_county) VALUES (?, ?, ?)", (county_id, name.strip(), sub_county.strip() if sub_county else None))
         self.conn.commit()
-        return cur.lastrowid
+        return int(cur.lastrowid or 0)
 
     def register_property(
         self,

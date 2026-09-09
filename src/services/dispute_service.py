@@ -19,43 +19,15 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional, Tuple, Dict, Any, List
 from uuid import UUID, uuid4
 
-try:
-    from sqlalchemy import select, update, and_
-    from sqlalchemy.ext.asyncio import AsyncSession
-    from src.db.models import Review, DisputeTicket, VerifiedLease, Property
-    HAS_SQLALCHEMY = True
-except ImportError:
-    HAS_SQLALCHEMY = False
-    AsyncSession = Any
-    class Review:
-        pass
-    class DisputeTicket:
-        pass
-    class VerifiedLease:
-        pass
-    class Property:
-        pass
-
-try:
-    from src.schemas.dispute_mobile import (
-        DisputeFileRequest,
-        DisputeFileResponse,
-        TenantRebuttalSubmitRequest,
-        TenantRebuttalResponse,
-    )
-except ImportError:
-    from src.schemas.dispute_mobile_pure import (
-        PureDisputeFileRequest as DisputeFileRequest,
-        PureTenantRebuttalSubmitRequest as TenantRebuttalSubmitRequest,
-    )
-    class DisputeFileResponse:
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-    class TenantRebuttalResponse:
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
+from sqlalchemy import select, update, and_
+from sqlalchemy.ext.asyncio import AsyncSession
+from src.db.models import Review, DisputeTicket, VerifiedLease, Property
+from src.schemas.dispute_mobile import (
+    DisputeFileRequest,
+    DisputeFileResponse,
+    TenantRebuttalSubmitRequest,
+    TenantRebuttalResponse,
+)
 
 from src.security.crypto_vault import CryptographicVault, logger
 

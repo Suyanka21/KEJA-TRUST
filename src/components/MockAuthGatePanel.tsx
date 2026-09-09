@@ -115,6 +115,17 @@ export const MockAuthGatePanel: React.FC = () => {
             </p>
           </div>
         </div>
+
+        {/* Investor Showcase / Demo Mode Disclaimer */}
+        <div className="mt-4 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-2xl p-3.5 text-xs text-blue-900 dark:text-blue-200 flex items-start gap-2.5">
+          <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+          <div className="space-y-0.5">
+            <span className="font-bold block">Investor Showcase · Simulated Auth &amp; Storage</span>
+            <span>
+              This project is built for demonstration and testing AI agent capabilities. It does not use real authentication (e.g. Firebase Auth) or an external database. All sessions and tenant credentials remain strictly local to your browser session.
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Active User Session Status if logged in */}

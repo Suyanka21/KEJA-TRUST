@@ -1,10 +1,18 @@
 # KeJaTrust (NyumbaYangu) — Kenyan Landlord & Rental Property Rating Platform
 
+[![Showcase Prototype](https://img.shields.io/badge/Status-Investor%20Showcase%20%2F%20AI%20Demo-blue.svg)](#1-project-overview--working-prototype-disclaimer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![Jurisdiction](https://img.shields.io/badge/Jurisdiction-Republic%20of%20Kenya-red.svg)](https://www.odpc.go.ke/)
 [![ODPC DPA 2019](https://img.shields.io/badge/Compliance-ODPC%20DPA%202019-teal.svg)](https://www.odpc.go.ke/)
 [![Cap 36 Defamation Shield](https://img.shields.io/badge/Legal%20Shield-Defamation%20Act%20Cap%2036-amber.svg)](http://kenyalaw.org/)
-[![Verification Suite](https://img.shields.io/badge/Tests-37%20Passing-brightgreen.svg)](tests/)
+[![Verification Suite](https://img.shields.io/badge/Tests-44%20Passing-brightgreen.svg)](tests/)
+
+> [!IMPORTANT]
+> ### 🚨 INVESTOR SHOWCASE & AI AGENT CAPABILITY DEMONSTRATION
+> **Notice**: KeJaTrust (NyumbaYangu) is a high-fidelity interactive showcase and conceptual demonstration built using AI Agent Skills to stress-test autonomous software engineering capabilities.
+> - **No Real Authentication**: This project currently uses client-side simulated auth gates (mock sessions). It intentionally does **not** connect to real authentication providers (Firebase Auth is the designated future production choice).
+> - **No Production Database**: All data storage is simulated in-memory and via browser `localStorage` / SQLite pure test runners. No external cloud database is attached.
+> - **Purpose**: Designed exclusively for investor showcases, architecture prototyping, and AI agent capability evaluation.
 
 ---
 
@@ -14,8 +22,8 @@
 **KeJaTrust (NyumbaYangu)** — Decentralized Kenyan Tenant Transparency and Landlord Rating Platform.
 
 ### Status
-**Working Prototype & High-Fidelity Interactive Simulation.**
-This repository contains both a containerized, production-mode TypeScript/React client application and an asynchronous Python/FastAPI backend architecture equipped with automated cryptographic enclaves, statutory state machines, and a comprehensive 37-test verification suite.
+**Investor Showcase Prototype & High-Fidelity Interactive Simulation.**
+This repository is a showcase project built to test and demonstrate AI agent skill capabilities. It contains both a containerized, production-mode TypeScript/React client application and an asynchronous Python/FastAPI backend architecture equipped with automated cryptographic enclaves, statutory state machines, and a comprehensive 44-test verification suite. Real cloud authentication and production databases are intentionally excluded for this showcase stage.
 
 ### Mission
 The Kenyan urban rental ecosystem (spanning Nairobi, Kiambu, Mombasa, Nakuru, Kisumu, and Eldoret) has historically suffered from systemic information asymmetry:

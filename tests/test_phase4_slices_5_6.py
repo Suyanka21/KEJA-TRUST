@@ -234,6 +234,7 @@ class TestPhase4Slices5And6(unittest.TestCase):
         """
         summary = self.engine.get_property_rating_summary(self.prop["id"])
         self.assertIsNotNone(summary)
+        assert summary is not None
         self.assertEqual(summary["building_name"], "Royal Suburbs Court")
         self.assertEqual(summary["estate_name"], "Kilimani")
         self.assertEqual(summary["county_name"], "Nairobi")

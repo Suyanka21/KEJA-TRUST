@@ -20,13 +20,7 @@ from uuid import uuid4
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.security.crypto_vault import CryptographicVault
-try:
-    from src.schemas.mpesa_review import DarajaC2BWebhookPayload, ReviewCreateRequest
-except ImportError:
-    from src.schemas.mpesa_review_pure import (
-        PureDarajaC2BWebhookPayload as DarajaC2BWebhookPayload,
-        PureReviewCreateRequest as ReviewCreateRequest,
-    )
+from src.schemas.mpesa_review import DarajaC2BWebhookPayload, ReviewCreateRequest
 from src.services.mpesa_review_service import (
     DarajaMpesaService,
     ReviewSubmissionService,
@@ -167,11 +161,15 @@ class TestSlice4ReviewSubmissionAndGoldBadge(unittest.TestCase):
 
         # Value 0 is out of bounds (< 1)
         with self.assertRaises(ValueError):
-            ReviewCreateRequest(**dict(valid_review_data, rating_deposit_refund=0))
+            invalid_data_0 = dict(valid_review_data)
+            invalid_data_0["rating_deposit_refund"] = 0
+            ReviewCreateRequest.model_validate(invalid_data_0)
 
         # Value 6 is out of bounds (> 5)
         with self.assertRaises(ValueError):
-            ReviewCreateRequest(**dict(valid_review_data, rating_water_utilities=6))
+            invalid_data_6 = dict(valid_review_data)
+            invalid_data_6["rating_water_utilities"] = 6
+            ReviewCreateRequest.model_validate(invalid_data_6)
 
     def test_algorithmic_pseudonym_generation_properties(self):
         pseudonyms = [ReviewSubmissionService.generate_random_pseudonym() for _ in range(50)]

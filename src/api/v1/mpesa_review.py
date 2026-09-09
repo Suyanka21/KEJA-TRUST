@@ -9,8 +9,9 @@ Exposes endpoints:
   * POST /api/v1/reviews/submit (Multi-vector rating submission & Gold Badge promotion)
 """
 
+from uuid import UUID
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Header, Request, UploadFile, File, status
+from fastapi import APIRouter, Depends, HTTPException, Header, Request, UploadFile, File, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.session import get_db_session

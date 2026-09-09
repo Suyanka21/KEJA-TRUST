@@ -13,31 +13,10 @@ from typing import List, Optional, Dict, Any
 from uuid import UUID
 from decimal import Decimal
 
-try:
-    from sqlalchemy import select, func, and_
-    from sqlalchemy.ext.asyncio import AsyncSession
-    from src.db.models import Property, Estate, County, Review
-    HAS_SQLALCHEMY = True
-except ImportError:
-    HAS_SQLALCHEMY = False
-    AsyncSession = Any
-
-try:
-    from src.schemas.dispute_mobile import MobileRatingSummary, MobileReviewCard
-except ImportError:
-    class MobileRatingSummary:
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-        def model_dump(self):
-            return self.__dict__
-
-    class MobileReviewCard:
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-        def model_dump(self):
-            return self.__dict__
+from sqlalchemy import select, func, and_
+from sqlalchemy.ext.asyncio import AsyncSession
+from src.db.models import Property, Estate, County, Review
+from src.schemas.dispute_mobile import MobileRatingSummary, MobileReviewCard
 
 
 class MobileOptimizationService:

@@ -100,7 +100,7 @@ class ReviewCreateRequest(BaseModel):
     Contains zero cleartext PII.
     """
     property_id: UUID = Field(..., description="UUID of target property being rated")
-    mpesa_receipt_code: Optional[str] = Field(None, description="Optional Daraja TransID for instant Gold Badge verification")
+    mpesa_receipt_code: Optional[str] = Field(default=None, description="Optional Daraja TransID for instant Gold Badge verification")
 
     # 5 Kenyan Rental Friction Rating Vectors (1-5 strictly bounded)
     rating_deposit_refund: int = Field(..., ge=1, le=5, description="1=Unlawful retention/denied, 5=Full refund prompt")
@@ -112,10 +112,10 @@ class ReviewCreateRequest(BaseModel):
     comment_title: str = Field(..., min_length=4, max_length=255, description="Review headline summarizing tenancy experience")
     comment_text: str = Field(..., min_length=20, max_length=5000, description="Detailed qualitative feedback")
 
-    monthly_rent_paid: Optional[Decimal] = Field(None, gt=0, description="Monthly rent in KES")
-    house_type: Optional[str] = Field(None, max_length=64, description="e.g. Bedsitter, 1-bedroom, 2-bedroom")
+    monthly_rent_paid: Optional[Decimal] = Field(default=None, gt=0, description="Monthly rent in KES")
+    house_type: Optional[str] = Field(default=None, max_length=64, description="e.g. Bedsitter, 1-bedroom, 2-bedroom")
     tenancy_start_year: int = Field(..., ge=2000, le=2030)
-    tenancy_end_year: Optional[int] = Field(None, ge=2000, le=2030)
+    tenancy_end_year: Optional[int] = Field(default=None, ge=2000, le=2030)
 
     @field_validator("mpesa_receipt_code")
     @classmethod

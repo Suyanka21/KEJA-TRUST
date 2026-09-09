@@ -27,14 +27,14 @@ class DisputeFileRequest(BaseModel):
     complainant_type: str = Field(..., description="'landlord' or 'property_manager' or 'agent'")
     complainant_name: str = Field(..., min_length=2, max_length=128, description="Legal full name of complainant")
     complainant_email: str = Field(..., description="Official correspondence email")
-    complainant_phone: Optional[str] = Field(None, description="Contact mobile number")
+    complainant_phone: Optional[str] = Field(default=None, description="Contact mobile number")
     
     police_ob_number: Optional[str] = Field(
-        None,
+        default=None,
         description="Kenya Police Occurrence Book Number e.g. 'OB 42/12/08/2026'",
     )
     earb_license_number: Optional[str] = Field(
-        None,
+        default=None,
         description="Estate Agents Registration Board License e.g. 'EARB/A/1234'",
     )
     defamation_claim_details: str = Field(
@@ -108,7 +108,7 @@ class TenantRebuttalSubmitRequest(BaseModel):
     dispute_id: UUID = Field(..., description="UUID of the filed dispute")
     rebuttal_token: str = Field(..., min_length=32, description="256-bit secure single-use token sent to tenant")
     mpesa_receipt_code: str = Field(..., min_length=10, max_length=10, description="10-character Daraja receipt code proving tenancy")
-    rebuttal_statement: Optional[str] = Field(None, max_length=2000, description="Tenant explanation/rebuttal context")
+    rebuttal_statement: Optional[str] = Field(default=None, max_length=2000, description="Tenant explanation/rebuttal context")
 
     @field_validator("mpesa_receipt_code")
     @classmethod
