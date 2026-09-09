@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+/* Gold Badge 5s periodic shimmer glint effect */
+@keyframes gold-shimmer-glint {
+  0%, 72% {
+    transform: translateX(-150%) skewX(-25deg);
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.85;
+  }
+  85%, 100% {
+    transform: translateX(260%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+.animate-gold-glint {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-gold-glint::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 243, 196, 0.8) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  animation: gold-shimmer-glint 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cap 36 7-Day Countdown subtle pulse */
+@keyframes countdown-pulse {
+  0%, 100% {
+    transform: scale(1);
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    border-color: rgba(245, 158, 11, 0.9);
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+  }
+}
+
+.animate-countdown-pulse {
+  animation: countdown-pulse 2.2s infinite ease-in-out;
+}
+
+/* Shredder paper strips animation */
+@keyframes shredder-fall {
+  0% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(120px) scaleY(0.2) rotate(6deg);
+    opacity: 0;
+  }
+}
+
+.animate-shredder-strip {
+  animation: shredder-fall 0.8s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
