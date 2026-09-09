@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AppStateProvider, useAppState } from './context/AppStateContext';
-import { Navbar } from './components/Navbar';
+import { AppSidebar } from './components/AppSidebar';
+import { AppHeader } from './components/AppHeader';
 import { ShowcasePanel } from './components/ShowcasePanel';
 import { SplashScreen } from './components/SplashScreen';
 import { MockAuthGatePanel } from './components/MockAuthGatePanel';
@@ -37,6 +38,11 @@ const AppContent: React.FC = () => {
     rebutDispute,
   } = useAppState();
 
+  // Sidebar state
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
+
+  // Modals state
   const [isAuditModalOpen, setIsAuditModalOpen] = useState<boolean>(false);
   const [quickRatePropertyId, setQuickRatePropertyId] = useState<string | null>(null);
 
@@ -49,7 +55,15 @@ const AppContent: React.FC = () => {
 
   const reviewForDispute = reviews.find((r) => r.id === reviewForDisputeId) || null;
   const reviewForRebuttal = reviews.find((r) => r.id === reviewForRebuttalId) || null;
-  const targetQuickRateProperty = properties.find((p) => p.id === quickRatePropertyId) || null;
+  const targetQuickRateProperty = properties.find((p) => p.id === quickRatePropertyId) || properties[0] || null;
+
+  const handleOpenWriteReview = () => {
+    if (selectedProperty) {
+      setQuickRatePropertyId(selectedProperty.id);
+    } else {
+      setQuickRatePropertyId(properties[0]?.id || null);
+    }
+  };
 
   return (
     <div
@@ -60,7 +74,7 @@ const AppContent: React.FC = () => {
       {toastMessage && (
         <div
           id="toast-notification"
-          className="fixed top-20 right-4 z-50 max-w-md bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2.5 border border-neutral-800 dark:border-neutral-200 animate-in fade-in slide-in-from-top-2"
+          className="fixed top-16 right-4 z-50 max-w-md bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2.5 border border-neutral-800 dark:border-neutral-200 animate-in fade-in slide-in-from-top-2"
         >
           <CheckCircle className="w-4 h-4 text-emerald-400 dark:text-emerald-600 shrink-0" />
           <span>{toastMessage}</span>
@@ -74,98 +88,116 @@ const AppContent: React.FC = () => {
       >
         <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
         <span>
-          <strong>Investor Showcase Prototype:</strong> Demonstrating autonomous AI agent engineering. Simulated auth and in-memory storage (no live DB or real auth).
+          <strong>Investor Showcase Prototype:</strong> Autonomous AI agent build. Simulated auth and in-memory storage (no production database).
         </span>
       </div>
 
-      {/* Main Navbar */}
-      <Navbar />
+      {/* Main App Layout: Sidebar + Main Content Column */}
+      <div className="flex-1 flex w-full min-h-[calc(100vh-32px)]">
+        <AppSidebar
+          isOpenMobile={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+          isCollapsedDesktop={isSidebarCollapsed}
+          onToggleCollapseDesktop={() => setIsSidebarCollapsed((prev) => !prev)}
+          onOpenWriteReviewModal={handleOpenWriteReview}
+        />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Dynamic Panel Routing */}
-        {activePanel === 'splash' && <SplashScreen />}
-
-        {activePanel === 'showcase' && <ShowcasePanel />}
-
-        {activePanel === 'auth' && <MockAuthGatePanel />}
-
-        {activePanel === 'tenant-dashboard' && <TenantDashboardPanel />}
-
-        {activePanel === 'dispute-center' && <DisputeCenterPanel />}
-
-        {activePanel === 'settings' && <SettingsPrivacyPanel />}
-
-        {activePanel === 'terms' && <CompliantTermsPanel />}
-
-        {activePanel === 'pricing' && <PricingPanel />}
-
-        {activePanel === 'properties' && selectedProperty && (
-          <ReviewFeed
-            property={selectedProperty}
-            reviews={selectedPropertyReviews}
-            onBackToProperties={() => {
-              setSelectedPropertyId(null);
-              setActivePanel('showcase');
-            }}
-            onOpenSubmitModal={() => {
-              setQuickRatePropertyId(selectedProperty.id);
-            }}
-            onSimulateDisputeSandbox={(reviewId) => {
-              setReviewForDisputeId(reviewId);
-            }}
-            onSimulateTenantRebuttal={(reviewId) => {
-              setReviewForRebuttalId(reviewId);
-            }}
+        {/* Main Column */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* Top Application Header */}
+          <AppHeader
+            onOpenMobileMenu={() => setIsMobileSidebarOpen(true)}
+            onOpenWriteReviewModal={handleOpenWriteReview}
+            onOpenAuditModal={() => setIsAuditModalOpen(true)}
           />
-        )}
-      </main>
 
-      {/* Platform Footer */}
-      <footer className="mt-16 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 py-8 text-xs text-neutral-500 dark:text-neutral-400 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-1.5 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <span className="font-bold text-neutral-900 dark:text-white">KeJaTrust (NyumbaYangu)</span>
-              <span className="text-neutral-300 dark:text-neutral-700">·</span>
-              <span>Republic of Kenya</span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
-                Privacy Protected
-              </span>
+          {/* Canvas */}
+          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            {/* Dynamic Panel Routing */}
+            {activePanel === 'splash' && <SplashScreen />}
+
+            {activePanel === 'showcase' && <ShowcasePanel />}
+
+            {activePanel === 'auth' && <MockAuthGatePanel />}
+
+            {activePanel === 'tenant-dashboard' && <TenantDashboardPanel />}
+
+            {activePanel === 'dispute-center' && <DisputeCenterPanel />}
+
+            {activePanel === 'settings' && <SettingsPrivacyPanel />}
+
+            {activePanel === 'terms' && <CompliantTermsPanel />}
+
+            {activePanel === 'pricing' && <PricingPanel />}
+
+            {activePanel === 'properties' && selectedProperty && (
+              <ReviewFeed
+                property={selectedProperty}
+                reviews={selectedPropertyReviews}
+                onBackToProperties={() => {
+                  setSelectedPropertyId(null);
+                  setActivePanel('showcase');
+                }}
+                onOpenSubmitModal={() => {
+                  setQuickRatePropertyId(selectedProperty.id);
+                }}
+                onSimulateDisputeSandbox={(reviewId) => {
+                  setReviewForDisputeId(reviewId);
+                }}
+                onSimulateTenantRebuttal={(reviewId) => {
+                  setReviewForRebuttalId(reviewId);
+                }}
+              />
+            )}
+          </main>
+
+          {/* Platform Footer */}
+          <footer className="mt-auto bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 py-8 text-xs text-neutral-500 dark:text-neutral-400 transition-colors">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-1.5 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <span className="font-bold text-neutral-900 dark:text-white">KeJaTrust (NyumbaYangu)</span>
+                  <span className="text-neutral-300 dark:text-neutral-700">·</span>
+                  <span>Republic of Kenya</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
+                    Privacy Protected
+                  </span>
+                </div>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 max-w-lg">
+                  Protecting Kenyan tenants with 100% anonymous rental reviews, verified tenant protections, and fair dispute resolution.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setActivePanel('terms')}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                >
+                  Terms &amp; Guidelines
+                </button>
+                <span className="text-neutral-300 dark:text-neutral-700">·</span>
+                <button
+                  type="button"
+                  onClick={() => setIsAuditModalOpen(true)}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1"
+                >
+                  <FileCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Trust &amp; Safety Audit</span>
+                </button>
+                <span className="text-neutral-300 dark:text-neutral-700">·</span>
+                <button
+                  type="button"
+                  onClick={() => setActivePanel('settings')}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                >
+                  Privacy Controls
+                </button>
+              </div>
             </div>
-            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 max-w-lg">
-              Protecting Kenyan tenants with 100% anonymous rental reviews, verified tenant protections, and fair dispute resolution.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
-            <button
-              type="button"
-              onClick={() => setActivePanel('terms')}
-              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-            >
-              Terms & Guidelines
-            </button>
-            <span className="text-neutral-300 dark:text-neutral-700">·</span>
-            <button
-              type="button"
-              onClick={() => setIsAuditModalOpen(true)}
-              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1"
-            >
-              <FileCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Trust & Safety Audit</span>
-            </button>
-            <span className="text-neutral-300 dark:text-neutral-700">·</span>
-            <button
-              type="button"
-              onClick={() => setActivePanel('settings')}
-              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-            >
-              Privacy Controls
-            </button>
-          </div>
+          </footer>
         </div>
-      </footer>
+      </div>
 
       {/* Cryptographic Partitioning Log Modal */}
       {lastCryptoPartitionEvent && (
@@ -175,10 +207,10 @@ const AppContent: React.FC = () => {
         />
       )}
 
-      {/* Statutory Audit Log Modal */}
+      {/* Trust & Safety Audit Log Modal */}
       {isAuditModalOpen && <AuditLogModal onClose={() => setIsAuditModalOpen(false)} />}
 
-      {/* Review Submission Modal (Quick Rate from Feed) */}
+      {/* Review Submission Modal (Quick Rate from Feed or Header) */}
       {quickRatePropertyId && targetQuickRateProperty && (
         <ReviewModal
           property={targetQuickRateProperty}
