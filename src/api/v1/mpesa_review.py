@@ -54,12 +54,17 @@ async def daraja_mpesa_webhook(
     db: AsyncSession = Depends(get_db_session),
     vault: CryptographicVault = Depends(get_crypto_vault),
 ) -> DarajaWebhookResponse:
-    # 1. IP Whitelisting Check
-    client_host = request.client.host if request.client else "127.0.0.1"
-    # Respect X-Forwarded-For if running behind reverse proxy
-    forwarded_for = request.headers.get("x-forwarded-for")
-    if forwarded_for:
-        client_host = forwarded_for.split(",")[0].strip()
+    # 1. IP Whitelisting Check (Anti-Spoofing: Only trust X-Forwarded-For if peer is a known trusted proxy)
+    import os
+    peer_ip = request.client.host if request.client else "127.0.0.1"
+    trusted_proxies_env = os.getenv("TRUSTED_PROXIES", "127.0.0.1,::1")
+    trusted_proxies = [p.strip() for p in trusted_proxies_env.split(",") if p.strip()]
+
+    client_host = peer_ip
+    if peer_ip in trusted_proxies:
+        forwarded_for = request.headers.get("x-forwarded-for")
+        if forwarded_for:
+            client_host = forwarded_for.split(",")[0].strip()
 
     if not DarajaMpesaService.verify_safaricom_ip(client_host):
         raise HTTPException(
@@ -146,3 +151,25 @@ async def upload_lease_ocr(
     filename = file.filename or "lease_agreement.pdf"
     result = LeaseDocumentOCR.parse_pdf_agreement(content, filename)
     return result
+
+
+@router.get(
+    "/reviews",
+    response_model=List[ReviewPublicResponse],
+    summary="List Public Property Reviews",
+    description="Lists published reviews (excluding sandboxed/archived) with optional property filter.",
+)
+async def list_reviews(
+    property_id: Optional[UUID] = Query(None, description="Filter reviews by property UUID"),
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    db: AsyncSession = Depends(get_db_session),
+) -> List[ReviewPublicResponse]:
+    from sqlalchemy import select
+    from src.db.models import Review
+    stmt = select(Review).where(Review.lifecycle_status == "active")
+    if property_id:
+        stmt = stmt.where(Review.property_id == property_id)
+    stmt = stmt.order_by(Review.created_at.desc()).offset(offset).limit(limit)
+    reviews = (await db.execute(stmt)).scalars().all()
+    return [ReviewPublicResponse.model_validate(r) for r in reviews]

@@ -83,11 +83,19 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# CORS Configuration - Strict whitelist to prevent credential leakage
+cors_origins_env = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000",
+)
+allowed_origins = [orig.strip() for orig in cors_origins_env.split(",") if orig.strip()]
+allow_creds = "*" not in allowed_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=allow_creds,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],
 )
 

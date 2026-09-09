@@ -60,10 +60,9 @@ async def file_dispute(
             vault=vault,
         )
 
-        # Enqueue background rebuttal dispatch task
+        # Enqueue background rebuttal dispatch task with standalone session
         background_tasks.add_task(
-            DefamationDisputeService.dispatch_tenant_rebuttal,
-            session=db,
+            DefamationDisputeService.dispatch_tenant_rebuttal_standalone,
             dispute_id=dispute_ticket.id,
             raw_rebuttal_token=raw_rebuttal_token,
             vault=vault,

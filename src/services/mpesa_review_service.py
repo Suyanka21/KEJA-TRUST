@@ -84,12 +84,11 @@ class DarajaMpesaService:
         Safaricom Daraja production IP subnets (196.201.214.0/24 or 196.201.213.0/24).
         Supports localhost bypass in non-production test environments.
         """
-        if not client_ip_str:
-            return False
+        # Safeguard: Never allow dev IP bypass in production environments
+        is_production = os.getenv("ENVIRONMENT", "development").lower() in ("production", "prod")
+        allow_dev = os.getenv("DARAJA_ALLOW_DEV_IPS", "false").lower() == "true"
 
-        # Allow local loopback in development / testing if explicitly enabled
-        allow_dev = os.getenv("DARAJA_ALLOW_DEV_IPS", "true").lower() == "true"
-        if allow_dev and client_ip_str in ("127.0.0.1", "::1", "testclient"):
+        if not is_production and allow_dev and client_ip_str in ("127.0.0.1", "::1", "testclient"):
             return True
 
         try:
@@ -154,11 +153,7 @@ class DarajaMpesaService:
         target_property = (await session.execute(stmt_prop)).scalar_one_or_none()
 
         if not target_property:
-            # Fall back to first registered property if default testing, otherwise raise
-            stmt_fallback = select(Property).limit(1)
-            target_property = (await session.execute(stmt_fallback)).scalar_one_or_none()
-            if not target_property:
-                raise ValueError(f"Property with reference '{bill_ref}' could not be resolved in directory.")
+            raise ValueError(f"Property resolution failed: Reference '{bill_ref}' does not match any registered property in the directory.")
 
         # 4. Micro-Payment Fraud Filter
         trans_amount = Decimal(payload.TransAmount)
@@ -238,7 +233,8 @@ class ReviewSubmissionService:
         3. If mpesa_receipt_code is supplied:
            - Computes receipt HMAC hash.
            - Checks verified_leases for an approved matching transaction.
-           - If found, instantly promotes review to is_verified_tenant = TRUE (Gold Badge).
+           - Verifies no duplicate review already exists for this verified lease (HIGH-13).
+           - If valid, promotes review to is_verified_tenant = TRUE (Gold Badge).
         4. Writes review record to database.
         """
         # 1. Check Property Existence
@@ -262,6 +258,14 @@ class ReviewSubmissionService:
             )
             lease_record = (await session.execute(stmt_lease)).scalar_one_or_none()
             if lease_record:
+                # Anti-Abuse Check: Prevent multiple reviews reusing the same verified lease token
+                stmt_dup = select(Review).where(Review.lease_verification_id == lease_record.id)
+                existing_rev = (await session.execute(stmt_dup)).scalar_one_or_none()
+                if existing_rev:
+                    raise ValueError(
+                        f"Conflict 409: A review has already been submitted using receipt '{payload.mpesa_receipt_code}'."
+                    )
+
                 is_verified = True
                 matched_lease_id = lease_record.id
 

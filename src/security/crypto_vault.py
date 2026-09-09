@@ -15,6 +15,7 @@ import hmac
 import base64
 import hashlib
 import logging
+import secrets
 from typing import Tuple, Dict, Any, Optional
 
 try:
@@ -112,8 +113,24 @@ class CryptographicVault:
         else:
             self._aesgcm = None
 
-        self.phone_salt = phone_salt or os.getenv("KEJATRUST_PHONE_SALT", "NairobiDagorettiSalt2026_x77")
-        self.receipt_salt = receipt_salt or os.getenv("KEJATRUST_RECEIPT_SALT", "DarajaReceiptSalt2026_m88")
+        # Enforce secure salt resolution - NEVER hardcode fallback secrets in source code
+        env_phone_salt = os.getenv("KEJATRUST_PHONE_SALT")
+        env_receipt_salt = os.getenv("KEJATRUST_RECEIPT_SALT")
+        is_production = os.getenv("ENVIRONMENT", "development").lower() in ("production", "prod")
+
+        if is_production and (not (phone_salt or env_phone_salt) or not (receipt_salt or env_receipt_salt)):
+            raise ValueError(
+                "CRITICAL SECURITY CONFIGURATION ERROR: "
+                "KEJATRUST_PHONE_SALT and KEJATRUST_RECEIPT_SALT must be explicitly set via environment variables in production."
+            )
+
+        if not (phone_salt or env_phone_salt):
+            logger.warning("KEJATRUST_PHONE_SALT not set. Generating ephemeral 256-bit CSPRNG salt for this runtime.")
+        if not (receipt_salt or env_receipt_salt):
+            logger.warning("KEJATRUST_RECEIPT_SALT not set. Generating ephemeral 256-bit CSPRNG salt for this runtime.")
+
+        self.phone_salt = phone_salt or env_phone_salt or secrets.token_hex(32)
+        self.receipt_salt = receipt_salt or env_receipt_salt or secrets.token_hex(32)
 
     @classmethod
     def generate_random_master_key(cls) -> str:

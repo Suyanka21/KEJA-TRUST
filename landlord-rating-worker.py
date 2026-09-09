@@ -79,15 +79,65 @@ async def process_expired_cap36_disputes():
         return 0
 
 
+async def shred_expired_odpc_tokens():
+    """
+    ODPC Section 40 Data Minimization & Cryptographic Shredding:
+    Purges expired single-use rebuttal tokens from resolved disputes
+    to prevent retention of sensitive correlation hashes.
+    """
+    try:
+        from src.db.session import AsyncSessionLocal
+        from src.db.models import DisputeTicket
+        from sqlalchemy import select, and_
+
+        async with AsyncSessionLocal() as session:
+            stmt = select(DisputeTicket).where(
+                and_(
+                    DisputeTicket.status.in_(["resolved_restored", "resolved_removed"]),
+                    DisputeTicket.rebuttal_token_hash.is_not(None),
+                )
+            )
+            result = await session.execute(stmt)
+            tickets = result.scalars().all()
+            if tickets:
+                for t in tickets:
+                    t.rebuttal_token_hash = None
+                await session.commit()
+                logger.info("ODPC Shredder: %d resolved dispute token hashes cryptographically purged.", len(tickets))
+                return len(tickets)
+            return 0
+    except Exception as e:
+        logger.warning("ODPC Shredder cycle notice: %s", e)
+        return 0
+
+
 async def run_worker_loop(interval_seconds: int = 3600):
-    """Continuous daemon loop running at statutory intervals."""
+    """
+    Continuous daemon loop running at statutory intervals with
+    exponential backoff on consecutive failures.
+    """
     logger.info("KeJaTrust Statutory Worker Daemon initialized (Interval: %ds)", interval_seconds)
+    consecutive_errors = 0
+    max_backoff_seconds = 300
+
     while True:
         try:
             await process_expired_cap36_disputes()
+            await shred_expired_odpc_tokens()
+            # Reset error counter on successful execution
+            consecutive_errors = 0
+            await asyncio.sleep(interval_seconds)
+        except asyncio.CancelledError:
+            logger.info("Worker loop cancelled.")
+            break
         except Exception as err:
-            logger.error("Error during worker execution: %s", err)
-        await asyncio.sleep(interval_seconds)
+            consecutive_errors += 1
+            backoff = min(interval_seconds * (2 ** (consecutive_errors - 1)), max_backoff_seconds)
+            logger.error(
+                "Worker iteration failed (attempt %d). Backing off for %ds. Error: %s",
+                consecutive_errors, backoff, err,
+            )
+            await asyncio.sleep(backoff)
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ FastAPI router exposing:
 """
 
 from typing import List, Optional
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -19,6 +20,9 @@ from src.schemas.geo_property import (
     EstateResponse,
     PropertyCreate,
     PropertyResponse,
+    PropertyDetailResponse,
+    ForgetTenantRequest,
+    ForgetTenantResponse,
 )
 from src.services.geo_property_service import GeoPropertyService
 
@@ -85,4 +89,79 @@ async def register_property(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to register property due to an unexpected system error.",
+        )
+
+
+@router.get(
+    "/properties",
+    response_model=List[PropertyDetailResponse],
+    summary="List Registered Properties with Metrics",
+    description="Retrieves registered properties with location metadata, 5-vector average ratings, and Gold Badge counts.",
+)
+async def list_properties(
+    q: Optional[str] = Query(None, description="Search query across building name, street, or landlord"),
+    county_id: Optional[int] = Query(None, ge=1, le=47, description="Filter by Kenyan county code"),
+    estate_id: Optional[int] = Query(None, gt=0, description="Filter by estate ID"),
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    db: AsyncSession = Depends(get_db_session),
+) -> List[PropertyDetailResponse]:
+    return await GeoPropertyService.list_properties(
+        session=db,
+        query=q,
+        county_id=county_id,
+        estate_id=estate_id,
+        limit=limit,
+        offset=offset,
+    )
+
+
+@router.get(
+    "/properties/{property_id}",
+    response_model=PropertyDetailResponse,
+    summary="Get Property Rating Details",
+    description="Retrieves a single property profile with aggregated 5-vector ratings and reviews count.",
+)
+async def get_property(
+    property_id: UUID,
+    db: AsyncSession = Depends(get_db_session),
+) -> PropertyDetailResponse:
+    prop = await GeoPropertyService.get_property_detail(db, property_id)
+    if not prop:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Property with ID '{property_id}' not found.",
+        )
+    return prop
+
+
+@router.post(
+    "/compliance/forget-tenant",
+    response_model=ForgetTenantResponse,
+    status_code=status.HTTP_200_OK,
+    summary="ODPC Section 40 Right to be Forgotten",
+    description="Statutory erasure under Kenya Data Protection Act 2019 Section 40. Atomically shreds all tenant references.",
+)
+async def forget_tenant(
+    payload: ForgetTenantRequest,
+    db: AsyncSession = Depends(get_db_session),
+) -> ForgetTenantResponse:
+    try:
+        res = await GeoPropertyService.forget_tenant(
+            session=db,
+            pseudonym=payload.pseudonym,
+            author_user_id=payload.author_user_id,
+        )
+        await db.commit()
+        return res
+    except ValueError as val_err:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(val_err),
+        )
+    except Exception as exc:
+        await db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to execute statutory erasure request.",
         )

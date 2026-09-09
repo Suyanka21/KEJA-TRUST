@@ -76,3 +76,45 @@ class PropertyResponse(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class VectorScores(BaseModel):
+    deposit_refund: float = 0.0
+    water_utilities: float = 0.0
+    security_privacy: float = 0.0
+    eviction_fairness: float = 0.0
+    management_responsiveness: float = 0.0
+
+
+class PropertyDetailResponse(BaseModel):
+    """Rich schema for property listing and dashboard cards."""
+    id: UUID
+    estate_id: int
+    estate_name: str
+    county_id: int
+    county_name: str
+    building_name: str
+    street_name: str
+    plot_number: Optional[str] = None
+    landlord_or_agency: Optional[str] = None
+    overall_score: float = 0.0
+    review_count: int = 0
+    verified_tenant_count: int = 0
+    scores: VectorScores
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ForgetTenantRequest(BaseModel):
+    """ODPC Section 40 Right to be Forgotten Request."""
+    pseudonym: Optional[str] = None
+    author_user_id: Optional[str] = None
+
+
+class ForgetTenantResponse(BaseModel):
+    """ODPC Section 40 Right to be Forgotten Confirmation."""
+    success: bool
+    purged_reviews_count: int
+    pseudonym_erased: str
+    legal_confirmation: str

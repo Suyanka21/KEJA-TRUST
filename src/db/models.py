@@ -25,8 +25,9 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    Uuid as PG_UUID,
+    LargeBinary as BYTEA,
 )
-from sqlalchemy.dialects.postgresql import BYTEA, UUID as PG_UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 

@@ -216,6 +216,25 @@ class DefamationDisputeService:
         }
 
     @staticmethod
+    async def dispatch_tenant_rebuttal_standalone(
+        dispute_id: UUID,
+        raw_rebuttal_token: str,
+        vault: CryptographicVault,
+    ) -> Dict[str, Any]:
+        """
+        Background task runner that instantiates its own isolated database session
+        to prevent session expiration after the HTTP request terminates.
+        """
+        from src.db.session import AsyncSessionLocal
+        async with AsyncSessionLocal() as session:
+            return await DefamationDisputeService.dispatch_tenant_rebuttal(
+                session=session,
+                dispute_id=dispute_id,
+                raw_rebuttal_token=raw_rebuttal_token,
+                vault=vault,
+            )
+
+    @staticmethod
     async def rebut_dispute(
         session: AsyncSession,
         payload: TenantRebuttalSubmitRequest,
@@ -226,7 +245,7 @@ class DefamationDisputeService:
         1. Checks dispute existence and active 'under_investigation' status.
         2. Validates that rebuttal deadline has not lapsed.
         3. Validates single-use rebuttal token hash.
-        4. Verifies supplied M-Pesa receipt code in verified_leases.
+        4. Verifies supplied M-Pesa receipt code matches an approved lease in the ledger.
         5. If verified:
            - Dispute status -> 'resolved_restored'
            - Review lifecycle_status -> 'active'
@@ -263,7 +282,7 @@ class DefamationDisputeService:
         if not review:
             raise ValueError("Target review associated with this dispute could not be found.")
 
-        # Validate M-Pesa tenancy receipt
+        # Validate M-Pesa tenancy receipt strictly against ledger (HIGH-10 fix)
         receipt_hash = vault.hmac_fingerprint(payload.mpesa_receipt_code, salt_type="receipt")
         stmt_lease = select(VerifiedLease).where(
             and_(
@@ -275,23 +294,10 @@ class DefamationDisputeService:
         verified_lease = (await session.execute(stmt_lease)).scalar_one_or_none()
 
         if not verified_lease:
-            # If no prior webhook record, check if TransID matches standard format and register ad-hoc
-            clean_code = payload.mpesa_receipt_code.strip().upper()
-            if not re.match(r"^[A-Z0-9]{10}$", clean_code):
-                raise ValueError("Supplied receipt code is invalid. Tenancy cannot be substantiated.")
-
-            # Create an authenticated tenancy proof record
-            verified_lease = VerifiedLease(
-                property_id=review.property_id,
-                method="mpesa_rebuttal_proof",
-                verification_token_hash=receipt_hash,
-                rent_paid_recorded=review.monthly_rent_paid or 25000.00,
-                status="approved",
-                raw_payload_encrypted=vault.encrypt_pii(f"REBUTTAL_SUBMISSION::{clean_code}"),
-                verified_at=now_utc,
+            raise ValueError(
+                f"Tenancy verification failed: Receipt code '{payload.mpesa_receipt_code}' was not found "
+                f"in the approved Safaricom Daraja ledger for this property. Rebuttal cannot be approved without authentic proof."
             )
-            session.add(verified_lease)
-            await session.flush()
 
         # Update dispute and review state
         dispute.status = "resolved_restored"
