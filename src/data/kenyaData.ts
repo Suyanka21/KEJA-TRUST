@@ -246,7 +246,7 @@ export const INITIAL_REVIEWS: Review[] = [
       claimantName: 'Kariuki Realties & Trust',
       policeObNumber: 'OB 42/02/09/2026',
       earbLicenseNumber: 'EARB/A/3819',
-      statutoryRef: 'Notice under Kenya Defamation Act Cap 36 Section 14 · Mandatory 168-Hour Rebuttal Protocol',
+      statutoryRef: 'Formal Dispute Filed with OB 42/02/09/2026 · 7-Day Fact-Check Window Open',
       countdownExpiresAt: '2026-09-09T08:15:00Z',
       groundsSummary:
         'Claimant alleges defamatory review regarding KES 24,000 deposit refund. Alleges tenant caused damage to sanitary ware and vacated without 30-day statutory notice.',
@@ -387,8 +387,8 @@ export const INITIAL_CRYPTO_LOGS: CryptographicPartitionLog[] = [
     pseudonym: 'RoysambuRenter82',
     identityFingerprint: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',
     encryptedSnippet: 'aes-256-gcm:iv=a4f128e9:auth=7c21b9a4',
-    legalBasis: 'Kenya Defamation Act Cap 36 Section 14 notice-and-takedown protocol',
-    details: 'Formal dispute ticket disp-001 opened by Kariuki Realties with police OB 42/02/09/2026. Review text quarantined pending 168h rebuttal.',
+    legalBasis: 'Fair Review Dispute Protocol & Fact-Checking Process',
+    details: 'Formal dispute ticket disp-001 opened by Kariuki Realties with police OB 42/02/09/2026. Review placed in fact-check queue pending 7-day tenant rebuttal.',
   },
   {
     id: 'log-002',
@@ -407,7 +407,7 @@ export const INITIAL_CRYPTO_LOGS: CryptographicPartitionLog[] = [
     pseudonym: 'KilimaniTenant14',
     identityFingerprint: '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b',
     encryptedSnippet: 'aes-256-gcm:iv=f90b21a3:auth=1e90ac42',
-    legalBasis: 'Kenya Data Protection Act 2019 Section 25 (Data Minimization)',
+    legalBasis: 'Privacy-First Data Minimization Protocol',
     details: 'Tenant phone and email cryptographically partitioned. Zero unencrypted PII stored in public database.',
   },
 ];

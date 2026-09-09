@@ -65,8 +65,8 @@ export const DisputeSimulationModal: React.FC<DisputeSimulationModalProps> = ({
               <Scale className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-neutral-900">File Defamation Dispute (Cap 36)</h3>
-              <p className="text-xs text-neutral-500">Statutory Notice-and-Takedown Procedure</p>
+              <h3 className="text-base font-bold text-neutral-900">Request Review Fact-Check</h3>
+              <p className="text-xs text-neutral-500">Fair Tenancy Verification Procedure</p>
             </div>
           </div>
           <button
@@ -80,14 +80,14 @@ export const DisputeSimulationModal: React.FC<DisputeSimulationModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
           <div className="p-3 bg-neutral-50 rounded-xl text-xs text-neutral-600 border border-neutral-200 leading-relaxed">
-            Under Kenyan law, filing a notice-and-takedown requires strict statutory standing.
+            To prevent false takedowns, requesting a review fact-check requires verified reference standing.
             Upon filing with a valid Police OB or EARB registration, the review will be{' '}
-            <strong className="text-neutral-900">atomically sandboxed</strong> and masked with the statutory Cap 36
-            warning banner for 7 days (168 hours).
+            <strong className="text-neutral-900">placed under fact-check review</strong> and temporarily hidden
+            for 7 days while the tenant confirms their tenancy.
           </div>
 
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-neutral-700">Complainant Statutory Standing</label>
+            <label className="block text-xs font-semibold text-neutral-700">Official Reference Standing</label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -174,7 +174,7 @@ export const DisputeSimulationModal: React.FC<DisputeSimulationModalProps> = ({
               type="submit"
               className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm"
             >
-              Execute Atomic Sandboxing
+              Submit Fact-Check Request
             </button>
           </div>
         </form>

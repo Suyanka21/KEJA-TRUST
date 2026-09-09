@@ -112,7 +112,7 @@ export interface DisputeTicket {
 export interface CryptographicPartitionLog {
   id: string;
   timestamp: string;
-  action: 'REGISTRATION' | 'MPESA_VERIFY' | 'DISPUTE_SANDBOX' | 'REBUTTAL_RESOLVED' | 'ODPC_RIGHT_TO_BE_FORGOTTEN';
+  action: 'REGISTRATION' | 'MPESA_VERIFY' | 'DISPUTE_SANDBOX' | 'REBUTTAL_RESOLVED' | 'ODPC_RIGHT_TO_BE_FORGOTTEN' | 'DATA_ERASURE';
   pseudonym: string;
   identityFingerprint: string;
   encryptedSnippet: string;
@@ -128,4 +128,5 @@ export type ActivePanel =
   | 'tenant-dashboard'
   | 'dispute-center'
   | 'settings'
-  | 'terms';
+  | 'terms'
+  | 'pricing';

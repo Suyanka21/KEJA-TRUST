@@ -155,7 +155,7 @@ export const ShowcasePanel: React.FC = () => {
           >
             No more hidden borehole water levies, withheld deposit deductions, or illegal padlock lockouts.
             KeJaTrust empowers verified Kenyan tenants to share immutable, cryptographically shielded apartment reviews
-            safeguarded by Section 14 Justification Defence and the Office of the Data Protection Commissioner (ODPC).
+            safeguarded by privacy-first encryption and Kenya’s data protection standards.
           </motion.p>
 
           {/* Action CTAs */}
@@ -209,7 +209,7 @@ export const ShowcasePanel: React.FC = () => {
             </div>
             <div>
               <div className="text-2xl sm:text-3xl font-black text-emerald-400">100%</div>
-              <div className="text-neutral-400 font-medium mt-0.5">ODPC Enclave Partitioned</div>
+              <div className="text-neutral-400 font-medium mt-0.5">Anonymous &amp; Private</div>
             </div>
             <div>
               <div className="text-2xl sm:text-3xl font-black text-white">47</div>
@@ -266,20 +266,20 @@ export const ShowcasePanel: React.FC = () => {
             </div>
             <div className="space-y-1">
               <h3 className="text-sm font-bold text-neutral-900 dark:text-white flex items-center gap-1.5">
-                <span>Cap 36 Statutory Shield</span>
+                <span>Fair Review Shield</span>
                 <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-mono font-bold">
-                  Sec 14
+                  Active
                 </span>
               </h3>
               <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Truthful statements are safeguarded under Section 14 Justification Defence. Contested claims activate a 168h police OB notice window.
+                Your honest reviews are protected. If a landlord disputes a claim, a 7-day fact-check window is triggered before any action.
               </p>
             </div>
           </motion.div>
 
           {/* Pillar 3 */}
           <motion.div
-            id="pillar-odpc"
+            id="pillar-privacy"
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             className="p-5 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-3 shadow-xs hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
           >
@@ -288,13 +288,13 @@ export const ShowcasePanel: React.FC = () => {
             </div>
             <div className="space-y-1">
               <h3 className="text-sm font-bold text-neutral-900 dark:text-white flex items-center gap-1.5">
-                <span>ODPC Anonymity</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-mono font-bold">
-                  DPA 2019
+                <span>100% Tenant Anonymity</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-bold">
+                  Privacy Shield
                 </span>
               </h3>
               <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Phone numbers and IDs are decoupled via SHA-256 and client-side encryption. Landlords cannot track or retaliate against authors.
+                Phone numbers and emails are decoupled via client-side encryption. Landlords never see your contact details, preventing retaliation.
               </p>
             </div>
           </motion.div>

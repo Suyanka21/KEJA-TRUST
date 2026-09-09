@@ -15,6 +15,7 @@ import {
   Settings,
   LogOut,
   ArrowRight,
+  Tag,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -34,10 +35,11 @@ export const Navbar: React.FC = () => {
 
   const navItems = [
     { id: 'showcase' as const, label: 'Directory & Ratings', icon: Building },
+    { id: 'pricing' as const, label: 'Pricing', icon: Tag },
     { id: 'tenant-dashboard' as const, label: 'Rate & My Reviews', icon: PlusCircle },
-    { id: 'dispute-center' as const, label: 'Dispute Center (Cap 36)', icon: Scale },
-    { id: 'settings' as const, label: 'ODPC Settings', icon: Settings },
-    { id: 'terms' as const, label: 'Statutory Shield', icon: FileText },
+    { id: 'dispute-center' as const, label: 'Dispute Center', icon: Scale },
+    { id: 'settings' as const, label: 'Privacy & Data', icon: Settings },
+    { id: 'terms' as const, label: 'Community Shield', icon: FileText },
   ];
 
   const handleBrandClick = () => {
@@ -81,7 +83,7 @@ export const Navbar: React.FC = () => {
                 </span>
               </div>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 hidden md:block">
-                Kenyan Tenant Transparency · Cap 36 Shield · ODPC Safe
+                Kenyan Tenant Transparency · 100% Anonymous · Verified Renters
               </p>
             </div>
           </div>

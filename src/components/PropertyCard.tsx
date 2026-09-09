@@ -87,7 +87,7 @@ export const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
                 <span
                   id={`verified-pill-${property.id}`}
                   className="animate-gold-glint inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-900 dark:text-amber-300 border border-amber-300/80 dark:border-amber-700 shadow-xs"
-                  title="Tenants verified via Safaricom M-Pesa rent confirmation · Protected under Cap 36 Section 14"
+                  title="Tenants verified via Safaricom M-Pesa rent confirmation · Your reviews are always protected"
                 >
                   <Sparkles className="w-3 h-3 text-amber-600 dark:text-amber-400 fill-amber-500" />
                   <span>{verifiedPercentage}% M-Pesa Verified</span>

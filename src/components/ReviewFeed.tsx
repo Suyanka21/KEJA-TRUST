@@ -175,14 +175,14 @@ export const ReviewFeed: React.FC<ReviewFeedProps> = ({
               }`}
             >
               <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-              <span>Cap 36 Sandboxed ({sandboxedCount})</span>
+              <span>Under Fact-Check ({sandboxedCount})</span>
             </button>
           )}
         </div>
 
         <div className="text-[11px] text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5 self-start sm:self-auto font-medium">
           <Scale className="w-3.5 h-3.5 text-neutral-400" />
-          <span>Statutory Notice-and-Takedown Protocol Compliant</span>
+          <span>Fair Fact-Check Protection</span>
         </div>
       </div>
 
@@ -332,7 +332,7 @@ export const ReviewFeed: React.FC<ReviewFeedProps> = ({
                   <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-400">
                     <span className="flex items-center gap-1.5 text-[11px]">
                       <Lock className="w-3 h-3 text-neutral-400" />
-                      <span>ODPC Anonymized · Cryptographically Saltened</span>
+                      <span>100% Anonymous · Contact Info Never Shared</span>
                     </span>
 
                     {!isSandboxed && (
@@ -341,10 +341,10 @@ export const ReviewFeed: React.FC<ReviewFeedProps> = ({
                         type="button"
                         onClick={() => onSimulateDisputeSandbox(review.id)}
                         className="text-[11px] text-neutral-500 hover:text-amber-700 dark:hover:text-amber-400 hover:underline flex items-center gap-1 transition-colors font-medium"
-                        title="Simulate landlord filing a Cap 36 dispute with Police OB number to sandbox this review"
+                        title="Request a factual review of this post if tenancy is disputed"
                       >
                         <Scale className="w-3 h-3 text-neutral-400" />
-                        <span>Landlord: File Cap 36 Dispute</span>
+                        <span>Landlord: Request Fact-Check</span>
                       </button>
                     )}
                   </div>

@@ -235,7 +235,7 @@ export const apiClient = {
   },
 
   /**
-   * File Cap 36 Defamation Dispute
+   * File a Formal Dispute Notice
    */
   async fileDispute(data: {
     reviewId: string;

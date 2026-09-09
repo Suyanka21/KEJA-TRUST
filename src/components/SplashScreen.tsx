@@ -11,6 +11,8 @@ import {
   ChevronRight,
   EyeOff,
   Search,
+  Check,
+  Tag,
 } from 'lucide-react';
 
 export const SplashScreen: React.FC = () => {
@@ -35,18 +37,18 @@ export const SplashScreen: React.FC = () => {
         <div className="absolute bottom-0 left-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl space-y-6">
-          {/* Statutory badges */}
+          {/* Reassuring Tenant-Centric Badges */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>ODPC Kenya DPA 2019 Registered</span>
+              <span>100% Anonymous &amp; Private — Landlords Never See Your Contact Info</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
               <Scale className="w-3.5 h-3.5 text-amber-400" />
-              <span>Cap 36 Defamation Shield</span>
+              <span>Fair Review Fact-Check Shield</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-800 text-neutral-300 border border-neutral-700">
-              <span>Safaricom M-Pesa Verified</span>
+              <span>Safaricom M-Pesa Verified Renters</span>
             </span>
           </div>
 
@@ -140,39 +142,39 @@ export const SplashScreen: React.FC = () => {
             <Coins className="w-6 h-6" />
           </div>
           <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
-            5 Kenyan Friction Vectors
+            5 Kenyan Rental Metrics That Matter
           </h2>
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Standard 5-star ratings don&apos;t work in Kenya. KeJaTrust rates apartment buildings on Deposit Refunds,
-            Water/Token reliability, Security &amp; Privacy, Eviction Fairness (Cap 293), and Management Responsiveness.
+            Standard 5-star ratings don&apos;t tell the real story. KeJaTrust rates apartment buildings on Deposit Refunds,
+            Water &amp; Token reliability, Security &amp; Privacy, Fair Eviction Treatment, and Management Responsiveness.
           </p>
         </div>
 
-        {/* Card 2: Defamation Shield */}
+        {/* Card 2: Fair Fact-Check Shield */}
         <div className="p-6 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-3 shadow-xs">
           <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 flex items-center justify-center">
             <Scale className="w-6 h-6" />
           </div>
           <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
-            Cap 36 Statutory Shield
+            Fair Review Fact-Check Shield
           </h2>
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Protected under Section 14 Justification of Kenya Defamation Act. Landlords who contest reviews must
-            enter a 168-hour evidence sandbox before taking action, safeguarding whistleblowing tenants.
+            Protected by verified rental records. If a landlord requests a review fact-check, the post is temporarily paused
+            while you confirm occupancy with your M-Pesa receipt — restoring it with a permanent Gold Verified badge.
           </p>
         </div>
 
-        {/* Card 3: ODPC Cryptographic Enclave */}
+        {/* Card 3: 100% Anonymous & Private */}
         <div className="p-6 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-3 shadow-xs">
           <div className="w-12 h-12 rounded-2xl bg-teal-100 dark:bg-teal-950 text-teal-700 dark:text-teal-400 flex items-center justify-center">
             <EyeOff className="w-6 h-6" />
           </div>
           <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
-            ODPC Zero Raw PII Enclave
+            100% Anonymous &amp; Private
           </h2>
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Your phone number and email are converted into one-way SHA-256 fingerprints. Neither landlords nor managing agents
-            can subpoena your raw contact details. Exercise Section 40 Right to be Forgotten at any time.
+            Your phone number and email are converted into one-way cryptographic codes. Landlords, caretakers, and agents
+            can never see who posted. Delete your account and reviews anytime with 1-click.
           </p>
         </div>
       </section>
@@ -238,6 +240,78 @@ export const SplashScreen: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Pricing & Subscription Section on Landing Page */}
+      <section className="space-y-6 pt-4">
+        <div className="rounded-3xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-xl">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Free for Renters — Always</span>
+            </span>
+            <h2 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
+              Transparent, Fair Kenyan Pricing
+            </h2>
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
+              Searching and rating is 100% free for all tenants. Landlords and property agencies subscribe for verified badges, official replies, and dispute fact-checks.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActivePanel('pricing')}
+            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-xs"
+          >
+            <Tag className="w-3.5 h-3.5" />
+            <span>View Full Pricing &amp; M-Pesa Plans</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* 3 Quick Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-3 shadow-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-neutral-500">Tenants</span>
+              <span className="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold">100% Free</span>
+            </div>
+            <h3 className="text-base font-bold text-neutral-900 dark:text-white">Free Renter</h3>
+            <div className="text-2xl font-black text-neutral-900 dark:text-white">KES 0 <span className="text-xs font-normal text-neutral-400">/ forever</span></div>
+            <ul className="text-xs text-neutral-600 dark:text-neutral-400 space-y-1.5 pt-1">
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Search all buildings</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Read candid tenant reviews</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Free M-Pesa Gold badge</li>
+            </ul>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border-2 border-emerald-500 space-y-3 shadow-md relative">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-600">Building Owners</span>
+              <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-bold">Popular</span>
+            </div>
+            <h3 className="text-base font-bold text-neutral-900 dark:text-white">Landlord Starter</h3>
+            <div className="text-2xl font-black text-neutral-900 dark:text-white">KES 1,999 <span className="text-xs font-normal text-neutral-400">/ month</span></div>
+            <ul className="text-xs text-neutral-600 dark:text-neutral-400 space-y-1.5 pt-1">
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Official Owner verification badge</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Direct public review replies</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Fast-track fact-check requests</li>
+            </ul>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-3 shadow-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-indigo-600">Property Agencies</span>
+              <span className="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 text-[10px] font-bold">Multi-Estate</span>
+            </div>
+            <h3 className="text-base font-bold text-neutral-900 dark:text-white">Agency Portfolio</h3>
+            <div className="text-2xl font-black text-neutral-900 dark:text-white">KES 8,500 <span className="text-xs font-normal text-neutral-400">/ month</span></div>
+            <ul className="text-xs text-neutral-600 dark:text-neutral-400 space-y-1.5 pt-1">
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-indigo-600" /> Unlimited properties &amp; estates</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-indigo-600" /> Multi-agent team access</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-indigo-600" /> 24h priority dispute resolution</li>
+            </ul>
+          </div>
         </div>
       </section>
 

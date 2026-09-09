@@ -51,7 +51,7 @@ export const CryptographicLogModal: React.FC<CryptographicLogModalProps> = ({ lo
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300">
-                ODPC DPA 2019 Certified
+                Privacy Certified
               </span>
               <span className="text-xs text-neutral-400 font-mono">
                 {new Date(log.timestamp).toLocaleTimeString()}

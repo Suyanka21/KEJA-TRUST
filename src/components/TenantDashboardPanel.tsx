@@ -168,7 +168,7 @@ export const TenantDashboardPanel: React.FC = () => {
                 )}
               </div>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-mono">
-                ODPC Identity Fingerprint: {currentUser.identityFingerprint.slice(0, 28)}...
+                Anonymous Identity Fingerprint: {currentUser.identityFingerprint.slice(0, 28)}...
               </p>
             </div>
           </div>
@@ -203,8 +203,8 @@ export const TenantDashboardPanel: React.FC = () => {
             </div>
           </div>
           <div>
-            <span className="text-neutral-400 font-medium">Statutory Defence:</span>
-            <div className="text-lg font-bold text-neutral-700 dark:text-neutral-300">Cap 36 Active</div>
+            <span className="text-neutral-400 font-medium">Review Protection:</span>
+            <div className="text-lg font-bold text-neutral-700 dark:text-neutral-300">Active</div>
           </div>
         </div>
       </div>
@@ -316,7 +316,7 @@ export const TenantDashboardPanel: React.FC = () => {
                 rows={4}
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Describe deposit return, caretaker response, token meter reliability, and any notices received. Factual observations are protected under Cap 36 Section 14 Justification."
+                placeholder="Describe deposit return, caretaker response, token meter reliability, and any notices received. Honest factual observations are always protected."
                 className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs font-medium focus:ring-2 focus:ring-emerald-500 leading-relaxed"
                 required
               />
@@ -413,8 +413,8 @@ export const TenantDashboardPanel: React.FC = () => {
 
               <p className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
                 Simulation Action: Providing a 10-character code triggers the Safaricom Daraja webhook match,
-                granting your review a <strong>Gold Verified Renter Badge</strong> and activating statutory Section 14
-                Justification Defence against landlord defamation disputes.
+                granting your review a <strong>Gold Verified Renter Badge</strong> and giving it maximum credibility
+                against any landlord disputes.
               </p>
             </div>
 
@@ -467,7 +467,7 @@ export const TenantDashboardPanel: React.FC = () => {
                             {targetProp?.buildingName || 'Kenyan Flat'}
                           </span>
                           <h4 className="text-xs font-bold text-neutral-900 dark:text-white mt-0.5">
-                            {isSandboxed ? '[Cap 36 Notice: Under Investigation]' : r.commentTitle}
+                            {isSandboxed ? '[Under Review — Fact-Check in Progress]' : r.commentTitle}
                           </h4>
                         </div>
                         {isSandboxed ? (

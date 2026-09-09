@@ -90,7 +90,7 @@ export const DisputeCenterPanel: React.FC = () => {
                 The Landlord &amp; Agent Dispute Center
               </h1>
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900 text-amber-900 dark:text-amber-200">
-                Kenya Defamation Act (Cap 36)
+                Fair Dispute Protocol
               </span>
             </div>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
@@ -108,7 +108,7 @@ export const DisputeCenterPanel: React.FC = () => {
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-black text-neutral-900 dark:text-white flex items-center gap-2">
               <ShieldAlert className="w-5 h-5 text-amber-600" />
-              <span>File a Statutory Cap 36 Notice</span>
+              <span>File a Formal Dispute Notice</span>
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
               Challenging a review will immediately redact its comment text and display an amber quarantine banner.
@@ -218,8 +218,8 @@ export const DisputeCenterPanel: React.FC = () => {
                 required
               />
               <p className="text-[11px] text-neutral-400">
-                To prevent vexatious takedowns, Cap 36 Section 14 mandates official police or statutory agency
-                verification.
+                To prevent frivolous takedowns, we require official police or statutory agency
+                verification before any review is removed.
               </p>
             </div>
 
@@ -334,7 +334,7 @@ export const DisputeCenterPanel: React.FC = () => {
 
                       {isResolved && ticket.rebuttalProof && (
                         <div className="mt-2 text-[11px] text-emerald-800 dark:text-emerald-300 bg-emerald-100/60 dark:bg-emerald-900/40 p-2 rounded-xl">
-                          <strong>Section 14 Justification Defence established:</strong> {ticket.rebuttalProof}
+                          <strong>Verified tenant proof accepted:</strong> {ticket.rebuttalProof}
                         </div>
                       )}
                     </div>
@@ -362,7 +362,7 @@ export const DisputeCenterPanel: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-lg font-black text-neutral-900 dark:text-white">
-                  Section 14 Justification Defence Rebuttal
+                  Prove You’re a Real Tenant — Lift the Quarantine
                 </h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
                   Simulate submitting lease or M-Pesa proof to lift the quarantine on review {selectedDisputeForRebuttal.reviewId}.
@@ -400,8 +400,8 @@ export const DisputeCenterPanel: React.FC = () => {
               </div>
 
               <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-300 leading-relaxed">
-                Under Section 14 of the Defamation Act, demonstrating truth in the public interest completely dissolves
-                the takedown claim, instantly restoring the review with a permanent Gold Badge.
+                Proving you’re a genuine, paying tenant instantly dissolves the dispute claim
+                and restores your review with a permanent Gold Verified Badge.
               </div>
 
               <div className="flex items-center justify-end gap-2 pt-2">

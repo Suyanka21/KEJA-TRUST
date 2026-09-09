@@ -8,6 +8,7 @@ import { TenantDashboardPanel } from './components/TenantDashboardPanel';
 import { DisputeCenterPanel } from './components/DisputeCenterPanel';
 import { SettingsPrivacyPanel } from './components/SettingsPrivacyPanel';
 import { CompliantTermsPanel } from './components/CompliantTermsPanel';
+import { PricingPanel } from './components/PricingPanel';
 import { ReviewFeed } from './components/ReviewFeed';
 import { ReviewModal } from './components/ReviewModal';
 import { DisputeSimulationModal } from './components/DisputeSimulationModal';
@@ -97,6 +98,8 @@ const AppContent: React.FC = () => {
 
         {activePanel === 'terms' && <CompliantTermsPanel />}
 
+        {activePanel === 'pricing' && <PricingPanel />}
+
         {activePanel === 'properties' && selectedProperty && (
           <ReviewFeed
             property={selectedProperty}
@@ -127,12 +130,11 @@ const AppContent: React.FC = () => {
               <span className="text-neutral-300 dark:text-neutral-700">·</span>
               <span>Republic of Kenya</span>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
-                ODPC Registered
+                Privacy Protected
               </span>
             </div>
             <p className="text-[11px] text-neutral-500 dark:text-neutral-400 max-w-lg">
-              Statutory tenancy protection under Kenya Data Protection Act 2019, Defamation Act (Cap 36 Section 14
-              Justification), and Distress for Rent Act (Cap 293 anti-lockout rules).
+              Protecting Kenyan tenants with 100% anonymous rental reviews, verified tenant protections, and fair dispute resolution.
             </p>
           </div>
 
@@ -142,7 +144,7 @@ const AppContent: React.FC = () => {
               onClick={() => setActivePanel('terms')}
               className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
             >
-              Statutory Terms
+              Terms & Guidelines
             </button>
             <span className="text-neutral-300 dark:text-neutral-700">·</span>
             <button
@@ -151,7 +153,7 @@ const AppContent: React.FC = () => {
               className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1"
             >
               <FileCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Statutory Audit Log</span>
+              <span>Trust & Safety Audit</span>
             </button>
             <span className="text-neutral-300 dark:text-neutral-700">·</span>
             <button

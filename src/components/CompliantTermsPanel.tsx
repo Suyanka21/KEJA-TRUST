@@ -19,15 +19,14 @@ export const CompliantTermsPanel: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
-                Statutory Terms of Use &amp; Privacy Safeguards
+                Platform Terms of Use &amp; Privacy Safeguards
               </h1>
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300">
                 Republic of Kenya
               </span>
             </div>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
-              Operating strictly within the legal framework established by the Kenya Data Protection Act 2019,
-              the Defamation Act (Cap 36), and the Distress for Rent Act (Cap 293).
+              Operating with an uncompromising commitment to tenant privacy, authentic reviews, and protection against illegal rental practices in Kenya.
             </p>
           </div>
         </div>
@@ -45,7 +44,7 @@ export const CompliantTermsPanel: React.FC = () => {
           }`}
         >
           <Lock className="w-3.5 h-3.5" />
-          <span>1. Data Protection Act 2019 (ODPC)</span>
+          <span>1. Privacy &amp; Data Protection</span>
         </button>
 
         <button
@@ -58,7 +57,7 @@ export const CompliantTermsPanel: React.FC = () => {
           }`}
         >
           <Scale className="w-3.5 h-3.5" />
-          <span>2. Defamation Act (Cap 36)</span>
+          <span>2. Fair Review Policy &amp; Disputes</span>
         </button>
 
         <button
@@ -71,7 +70,7 @@ export const CompliantTermsPanel: React.FC = () => {
           }`}
         >
           <AlertOctagon className="w-3.5 h-3.5" />
-          <span>3. Distress for Rent Act (Cap 293)</span>
+          <span>3. Anti-Lockout &amp; Eviction Rules</span>
         </button>
       </div>
 
@@ -81,46 +80,46 @@ export const CompliantTermsPanel: React.FC = () => {
           <div className="space-y-6 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
             <div className="space-y-2 border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                Statutory Charter Part I
+                Privacy Standard
               </span>
               <h2 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white">
-                Kenya Data Protection Act (No. 24 of 2019) Compliance
+                Kenyan Data Privacy &amp; Anonymity Protection
               </h2>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Enforced by the Office of the Data Protection Commissioner (ODPC).
+                Adhering to Kenyan national privacy standards and data commissioner guidelines.
               </p>
             </div>
 
             <section className="space-y-2">
               <h3 className="font-bold text-neutral-900 dark:text-white text-sm">
-                1. Data Controller &amp; Processor Principles (Section 25)
+                1. Data Minimization &amp; Privacy First
               </h3>
               <p>
-                KeJaTrust operates under strict adherence to Section 25 principles: lawfulness, fairness, transparency,
-                purpose limitation, and data minimization. We collect only what is strictly necessary to prevent fraudulent
+                KeJaTrust operates under strict privacy principles: lawfulness, fairness, transparency,
+                and minimal data retention. We collect only what is strictly necessary to prevent fraudulent
                 reviews and verify authentic Kenyan tenancy.
               </p>
             </section>
 
             <section className="space-y-2">
               <h3 className="font-bold text-neutral-900 dark:text-white text-sm">
-                2. Cryptographic Partitioning &amp; Tenant Retaliation Immunity (Section 31)
+                2. Real-Time Cryptographic Privacy &amp; Anti-Retaliation Shield
               </h3>
               <p>
-                To shield Kenyan tenants from vindictive landlord harassment, unannounced check-ins, or rental
-                blacklisting, the platform performs real-time cryptographic partitioning. A tenant&apos;s Kenyan mobile
-                number (+254...) and personal email are decoupled from review entities and irreversibly hashed via
-                SHA-256. Public review records reflect only pseudonymous author handles (e.g. &quot;RoysambuRenter82&quot;).
+                To shield Kenyan renters from landlord harassment, surprise lockouts, or rental
+                blacklisting, KeJaTrust performs instant cryptographic privacy isolation. A tenant&apos;s Kenyan mobile
+                number (+254...) and personal contact details are completely disconnected from public reviews and permanently
+                hashed. Public review records display only pseudonymous author tags (e.g. &quot;RoysambuRenter82&quot;).
               </p>
             </section>
 
             <section className="space-y-2">
               <h3 className="font-bold text-neutral-900 dark:text-white text-sm">
-                3. Section 40 Right to be Forgotten (Data Erasure)
+                3. Permanent Right to Complete Data Erasure
               </h3>
               <p>
-                Every user retains full autonomy over their data. Upon exercising the Right to be Forgotten in your
-                privacy settings, all user vectors, encrypted payloads, and authored reviews are permanently expunged
+                Every renter retains full autonomy over their data. Upon exercising your erasure options in your
+                privacy settings, all user profile traces, encrypted session tokens, and authored reviews are permanently expunged
                 from local client states within milliseconds.
               </p>
             </section>
@@ -131,45 +130,43 @@ export const CompliantTermsPanel: React.FC = () => {
           <div className="space-y-6 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
             <div className="space-y-2 border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                Statutory Charter Part II
+                Review Integrity Standard
               </span>
               <h2 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white">
-                Defamation Act (Cap 36) &amp; Section 14 Justification Protocol
+                Fair Review Policy &amp; Transparent Dispute Protocol
               </h2>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Notice-and-takedown balance protecting both landlord reputation and tenant truth.
+                A balanced, evidence-based process protecting both landlord reputation and tenant truth.
               </p>
             </div>
 
             <section className="space-y-2">
               <h3 className="font-bold text-neutral-900 dark:text-white text-sm">
-                1. Notice-and-Takedown Protocol (168-Hour Quarantine)
+                1. Fair Fact-Checking Protocol (7-Day Review Window)
               </h3>
               <p>
-                Under Kenya defamation jurisprudence, an intermediary platform that receives formal notice of alleged
-                defamatory material must investigate promptly. To prevent abuse, KeJaTrust requires landlords or licensed
-                managing agents to lodge formal disputes with either a Kenya Police Occurrence Book (OB) Number or an
-                Estate Agents Registration Board (EARB) license.
+                When a property owner or licensed agent disputes a review, KeJaTrust investigates promptly and fairly.
+                To prevent frivolous disputes, landlords or registered agents must provide formal verification — such as a
+                Police Occurrence Book (OB) Number or Estate Agents Registration Board (EARB) license.
               </p>
               <p>
-                Upon valid filing, the review text is instantly quarantined and replaced with a statutory Cap 36 notice
-                banner with an open 168-hour (7-day) rebuttal clock.
+                Upon filing, the review text is temporarily flagged for fact-checking with an open 7-day (168-hour)
+                window for the reviewer to verify their genuine tenant experience.
               </p>
             </section>
 
             <section className="space-y-2">
               <h3 className="font-bold text-neutral-900 dark:text-white text-sm">
-                2. Section 14 Justification Defence (Truth in the Public Interest)
+                2. Verified Tenant Truth Defence (Truth in the Public Interest)
               </h3>
               <p>
-                Section 14 of the Kenya Defamation Act provides that in an action for libel, the defence of justification
-                shall not fail by reason only that the truth of every charge is not proved if the words not proved to be
-                true do not materially injure the plaintiff&apos;s reputation.
+                Under Kenyan rental practices and legal precedent, truthful feedback shared in the public interest is fully protected.
+                Reviews backed by authentic documentation cannot be silenced by landlord threats.
               </p>
               <p>
-                A tenant who produces valid Safaricom M-Pesa rent/deposit receipts or a signed lease conclusively
-                establishes bona fide tenancy and factual justification. When submitted, the quarantine is immediately
-                dissolved, and the review is awarded a permanent Gold Verified Renter Badge.
+                A tenant who produces valid Safaricom M-Pesa rent/deposit receipts or a signed lease agreement conclusively
+                confirms authentic tenancy. When submitted, the temporary flag is immediately lifted, and the review is awarded
+                a permanent Gold Verified Renter Badge.
               </p>
             </section>
           </div>
@@ -179,13 +176,13 @@ export const CompliantTermsPanel: React.FC = () => {
           <div className="space-y-6 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
             <div className="space-y-2 border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                Statutory Charter Part III
+                Tenant Rights Standard
               </span>
               <h2 className="text-lg sm:text-xl font-black text-neutral-900 dark:text-white">
-                Distress for Rent Act (Cap 293) &amp; Unlawful Evictions
+                Anti-Lockout Protections &amp; Unlawful Eviction Prevention
               </h2>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Combating illegal padlock lockouts, utility cut-offs, and unauthorized auctioning.
+                Combating illegal padlock lockouts, utility cut-offs, and unauthorized harassment.
               </p>
             </div>
 
@@ -194,25 +191,25 @@ export const CompliantTermsPanel: React.FC = () => {
                 1. Prohibition of Landlord Self-Help Lockouts
               </h3>
               <p>
-                Under Kenyan law (Section 3 of Cap 293 and Court of Appeal precedents), a landlord or caretaker is
-                strictly prohibited from engaging in extra-judicial &quot;self-help&quot; eviction tactics, including:
+                Under Kenyan rental laws and Court of Appeal precedents, a landlord or caretaker is
+                strictly prohibited from engaging in illegal &quot;self-help&quot; eviction tactics, including:
               </p>
               <ul className="list-disc pl-5 space-y-1 text-xs text-neutral-600 dark:text-neutral-400">
-                <li>Welding or placing secondary padlocks on tenant doors without a court order;</li>
-                <li>Disconnecting water supply or sabotaging token electricity meters;</li>
+                <li>Welding doors shut or placing secondary padlocks on tenant doors without a valid court order;</li>
+                <li>Disconnecting water supply or tampering with token electricity meters;</li>
                 <li>Removing iron roof sheets, doors, or window panes to coerce departure;</li>
-                <li>Seizing tenant household goods without a licensed court bailiff wielding an auctioneer warrant.</li>
+                <li>Seizing tenant household goods without a licensed court bailiff and auctioneer warrant.</li>
               </ul>
             </section>
 
             <section className="space-y-2">
               <h3 className="font-bold text-neutral-900 dark:text-white text-sm">
-                2. Eviction Fairness Vector Tracking
+                2. Eviction Fairness Tracking
               </h3>
               <p>
                 Our 5-Vector rating engine aggregates tenant feedback specifically on landlord compliance with
-                statutory 30-day notice periods and fair dispute resolution. Landlords who routinely resort to unlawful
-                distress for rent receive degraded Eviction Fairness scores, warning prospective tenants in advance.
+                mandatory 30-day notice periods and fair dispute resolution. Landlords who routinely resort to unlawful
+                evictions receive degraded Eviction Fairness scores, warning prospective tenants in advance.
               </p>
             </section>
           </div>

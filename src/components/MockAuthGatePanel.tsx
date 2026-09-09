@@ -106,7 +106,7 @@ export const MockAuthGatePanel: React.FC = () => {
                 The Mock Gate: Simulated Onboarding &amp; Auth
               </h1>
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">
-                ODPC DPA 2019
+                Privacy Protected
               </span>
             </div>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
@@ -395,12 +395,12 @@ export const MockAuthGatePanel: React.FC = () => {
           <div className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-2 text-xs">
             <div className="flex items-center gap-1.5 font-bold text-neutral-800 dark:text-neutral-200">
               <Info className="w-4 h-4 text-emerald-600" />
-              <span>Section 25 Compliance Guarantee</span>
+              <span>Your Data is Always Protected</span>
             </div>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-[11px]">
-              Under Kenya&apos;s Data Protection Act 2019, Section 25 mandates data minimization and privacy by design.
-              Landlords who demand tenant disclosure for filing lawsuits cannot subpoena raw identities because only
-              irreversible cryptographic hashes are stored on the public blockchain/ledger.
+              We follow strict data minimization and privacy-by-design principles.
+              Landlords cannot access your real identity because only irreversible cryptographic hashes are stored — your
+              personal details are never revealed.
             </p>
           </div>
         </div>

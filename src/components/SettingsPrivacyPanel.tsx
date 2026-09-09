@@ -111,15 +111,15 @@ export const SettingsPrivacyPanel: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-white">
-                Settings &amp; ODPC Data Privacy Controls
+                Settings &amp; Privacy Controls
               </h1>
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300">
-                Section 40 Compliant
+                100% Private &amp; Erasable
               </span>
             </div>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
-              Manage client-side display preferences, inspect your cryptographic identity footprint, and exercise your
-              statutory Right to be Forgotten under the Kenya Data Protection Act 2019.
+              Manage display preferences, inspect your anonymous identity fingerprint, or permanently delete your account
+              and reviews with one click.
             </p>
           </div>
         </div>
@@ -201,20 +201,20 @@ export const SettingsPrivacyPanel: React.FC = () => {
         </div>
       </div>
 
-      {/* ODPC Data Privacy Control Block */}
+      {/* Privacy Control Block */}
       <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8 shadow-xs space-y-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white flex items-center gap-2">
               <Lock className="w-5 h-5 text-emerald-600" />
-              <span>ODPC Data Privacy &amp; PII Enclave</span>
+              <span>Tenant Privacy &amp; Encryption Shield</span>
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-              Active cryptographic state under the Office of the Data Protection Commissioner.
+              Active cryptographic protection ensuring your real identity stays private.
             </p>
           </div>
           <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-            DPA 2019 · Sec 40
+            Privacy Shield
           </span>
         </div>
 
@@ -254,11 +254,11 @@ export const SettingsPrivacyPanel: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-rose-950 dark:text-rose-200">
-                    Section 40 Right to be Forgotten (Permanent Erasure)
+                    Permanent Data Erasure (Right to be Forgotten)
                   </h3>
                   <p className="text-xs text-rose-800 dark:text-rose-300 leading-relaxed mt-0.5">
-                    Exercising this statutory right under Kenya DPA 2019 permanently wipes your account, destroys
-                    cryptographic keys, and shreds all reviews authored by {currentUser.pseudonym} from the local database.
+                    Exercising this right permanently wipes your account, destroys your encryption keys, and deletes
+                    all reviews authored by {currentUser.pseudonym} from the local database.
                   </p>
                 </div>
               </div>
@@ -271,7 +271,7 @@ export const SettingsPrivacyPanel: React.FC = () => {
                   className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-sm transition-all active:scale-[0.98] flex items-center gap-1.5"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  <span>Exercise Right to be Forgotten</span>
+                  <span>Permanently Delete My Data</span>
                 </button>
               </div>
             </div>
@@ -322,7 +322,7 @@ export const SettingsPrivacyPanel: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span
                     className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                      log.action === 'ODPC_RIGHT_TO_BE_FORGOTTEN'
+                      log.action === 'ODPC_RIGHT_TO_BE_FORGOTTEN' || log.action === 'DATA_ERASURE'
                         ? 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200'
                         : log.action === 'MPESA_VERIFY'
                         ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200'
@@ -398,7 +398,7 @@ export const SettingsPrivacyPanel: React.FC = () => {
 
             <div className="space-y-1.5">
               <h3 className="text-lg font-black text-neutral-900 dark:text-white">
-                Confirm Section 40 Erasure
+                Confirm Permanent Data Erasure
               </h3>
               <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 Are you sure you want to permanently erase the mock account for{' '}

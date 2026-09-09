@@ -39,7 +39,7 @@ export const AuditLogModal: React.FC<AuditLogModalProps> = ({ onClose }) => {
                 KeJaTrust Compliance &amp; Privacy Audit Log
               </h3>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Statutory Assessment Under Kenya DPA 2019 &amp; Defamation Act (Cap 36)
+                Privacy & Compliance Audit Summary
               </p>
             </div>
           </div>
@@ -112,33 +112,31 @@ export const AuditLogModal: React.FC<AuditLogModalProps> = ({ onClose }) => {
               <span>2. Leakage Protection (Zero Client-Side Holding of Raw PII)</span>
             </div>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              In full alignment with the Office of the Data Protection Commissioner (ODPC) and Kenya DPA 2019:
+              In full alignment with Kenyan data privacy principles:
               No tenant phone numbers, email addresses, or national ID numbers are persisted in client storage or DOM
               attributes. Author identity is rendered exclusively through randomized pseudonyms (e.g. &apos;RoysambuRenter82&apos;).
               M-Pesa transaction IDs are hashed with high-entropy salt before ledger entry, preventing tenant re-identification.
             </p>
             <div className="flex items-center gap-2 text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold pt-1">
               <CheckCircle className="w-3.5 h-3.5" />
-              <span>Audited: Zero raw PII leakage; ODPC anonymity guarantees strictly enforced</span>
+              <span>Audited: Zero raw PII leakage; anonymity guarantees strictly enforced</span>
             </div>
           </div>
 
-          {/* Pillar 3: Defamation Notice Banner (Cap 36) */}
+          {/* Pillar 3: Fair Dispute Protocol */}
           <div className="p-4 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-800/40 space-y-2">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold">
               <Scale className="w-4 h-4 text-amber-600" />
-              <span>3. Defamation Notice Banner Compliance (Defamation Act Cap 36)</span>
+              <span>3. Fair Dispute & Review Protection Protocol</span>
             </div>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              When a review&apos;s lifecycle status shifts to <code>&apos;under_investigation&apos;</code> via formal notice (verified
-              Police OB or EARB registration), the UI renders an atomic legal shield: both the title and comment body are
-              completely removed from DOM rendering and replaced with the statutory Cap 36 Amber Warning Banner.
-              Verification of bona fide tenancy via M-Pesa receipt triggers Section 14 Justification Defence and restores
-              the review with an immutable Gold Verified Badge.
+              When a review is disputed via formal notice (verified Police OB or EARB registration), the UI renders
+              a protective shield: both the title and comment body are replaced with an amber "Under Fact-Check" banner.
+              Verification of genuine tenancy via M-Pesa receipt restores the review with an immutable Gold Verified Badge.
             </p>
             <div className="flex items-center gap-2 text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold pt-1">
               <CheckCircle className="w-3.5 h-3.5" />
-              <span>Audited: Section 14 Justification Defence and 168-hour notice-and-takedown verified</span>
+              <span>Audited: Tenant verification and 7-day fact-check window verified</span>
             </div>
           </div>
 

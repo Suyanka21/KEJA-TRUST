@@ -89,7 +89,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             <p className="text-[10px] text-neutral-500">
-              ODPC Kenya Data Protection Act 2019 · Defamation Act Cap 36 Compliant
+              Privacy Protected · Fair Review Protocol Compliant
             </p>
           </div>
         </div>

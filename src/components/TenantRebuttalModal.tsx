@@ -46,8 +46,8 @@ export const TenantRebuttalModal: React.FC<TenantRebuttalModalProps> = ({
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-neutral-900">Tenant Section 14 Justification Rebuttal</h3>
-              <p className="text-xs text-neutral-500">Lift Cap 36 Sandbox via Verified Lease Proof</p>
+              <h3 className="text-base font-bold text-neutral-900">Prove You're a Real Tenant</h3>
+              <p className="text-xs text-neutral-500">Restore your review with verified M-Pesa proof</p>
             </div>
           </div>
           <button
@@ -61,9 +61,9 @@ export const TenantRebuttalModal: React.FC<TenantRebuttalModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
           <div className="p-3 bg-emerald-50/70 rounded-xl text-xs text-emerald-900 border border-emerald-200 leading-relaxed">
-            Under <strong>Defamation Act (Cap 36) Section 14 (Justification Defence)</strong>, submitting a valid Safaricom
-            M-Pesa rent confirmation code irrefutably verifies your lawful occupancy as a paying tenant. This immediately
-            lifts the sandbox and restores your review with a permanent <strong>Gold Verified Renter Badge</strong>.
+            Submitting a valid Safaricom M-Pesa rent receipt proves you're a <strong>verified paying tenant</strong>.
+            Once confirmed, your review is immediately restored with a permanent <strong>Gold Verified Renter Badge</strong> —
+            giving your review maximum credibility and trust.
           </div>
 
           <div>

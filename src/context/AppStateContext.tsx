@@ -298,7 +298,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       pseudonym: finalPseudonym,
       identityFingerprint,
       encryptedSnippet: encryptedPayload.slice(0, 36) + '...',
-      legalBasis: 'Kenya Data Protection Act 2019 Section 25 & Section 31 (Cryptographic Partitioning)',
+      legalBasis: 'Privacy-First Cryptographic Partitioning & Anonymity Shield',
       details: `Raw PII (${maskedEmail}, ${maskedPhone}) transformed into irreversible SHA-256 fingerprint [${identityFingerprint.slice(0, 12)}...]. AES-256-GCM enclave generated. Zero cleartext PII stored.`,
     };
 
@@ -308,7 +308,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setLastCryptoPartitionEvent(newLog);
     setActivePanelState('showcase');
 
-    showToast(`Welcome, ${finalPseudonym}! Identity cryptographically secured under Kenya DPA 2019.`);
+    showToast(`Welcome, ${finalPseudonym}! Identity cryptographically secured & 100% anonymous.`);
     return newUser;
   };
 
@@ -491,7 +491,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         pseudonym: authorPseudonym,
         identityFingerprint: currentUser?.identityFingerprint || generateSha256Fingerprint(authorPseudonym),
         encryptedSnippet: `Daraja:Receipt[${payload.mpesaReceiptCode?.trim().toUpperCase()}]`,
-        legalBasis: 'Safaricom Daraja C2B Webhook & Section 14 Justification Defence',
+        legalBasis: 'Safaricom Daraja Verification & Tenant Authenticity Shield',
         details: `Daraja validation matched 10-char receipt ${payload.mpesaReceiptCode}. Promoted review to Gold Verified Renter Badge.`,
       };
       setCryptoLogs((prev) => [cryptoLog, ...prev]);
@@ -571,7 +571,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             claimantName: claimantName.trim(),
             policeObNumber: isOb ? identifier.trim() : undefined,
             earbLicenseNumber: isEarb ? identifier.trim() : undefined,
-            statutoryRef: `Notice under Kenya Defamation Act Cap 36 Section 14 · Filed with ${identifier.trim()}`,
+            statutoryRef: `Formal Dispute Filed with ${identifier.trim()} · 7-Day Fact-Check Window Open`,
             countdownExpiresAt,
             groundsSummary: grounds.trim(),
           },
@@ -599,13 +599,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       identityFingerprint: targetReview.authorUserId
         ? users.find((u) => u.id === targetReview.authorUserId)?.identityFingerprint || 'unknown'
         : generateSha256Fingerprint(targetReview.authorPseudonym),
-      encryptedSnippet: `Cap36Notice:[${identifier.trim()}]`,
-      legalBasis: 'Kenya Defamation Act Cap 36 Section 14 Notice-and-Takedown Protocol',
-      details: `Formal dispute lodged by ${claimantName} (${claimantType}) with ref ${identifier}. Review ${reviewId} transitioned to 'under_investigation'. Text stripped and amber warning clock initiated.`,
+      encryptedSnippet: `DisputeNotice:[${identifier.trim()}]`,
+      legalBasis: 'Fair Review Dispute Protocol & Fact-Checking Process',
+      details: `Formal dispute lodged by ${claimantName} (${claimantType}) with ref ${identifier}. Review ${reviewId} transitioned to 'under_investigation'. Fact-check initiated with 7-day tenant rebuttal window.`,
     };
     setCryptoLogs((prev) => [cryptoLog, ...prev]);
 
-    showToast(`Dispute lodged! Review ${reviewId} moved to quarantine under Kenya Defamation Act Cap 36.`);
+    showToast(`Dispute lodged! Review ${reviewId} moved to fact-check queue for 7 days.`);
     return true;
   };
 
@@ -649,16 +649,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       pseudonym: targetReview.authorPseudonym,
       identityFingerprint: generateSha256Fingerprint(targetReview.authorPseudonym),
       encryptedSnippet: `RebuttalDocHash:${Math.random().toString(16).substring(2, 14)}`,
-      legalBasis: 'Section 14 Justification Defence (Defamation Act Cap 36)',
-      details: `Tenant submitted valid tenancy rebuttal (${proofType}). Truth and public benefit established. Quarantine lifted; review restored with permanent Gold Verified Badge.`,
+      legalBasis: 'Verified Tenant Truth Defence (M-Pesa Verified)',
+      details: `Tenant submitted valid tenancy proof (${proofType}). Truth and public benefit established. Temporary flag lifted; review restored with permanent Gold Verified Badge.`,
     };
     setCryptoLogs((prev) => [cryptoLog, ...prev]);
 
-    showToast('Rebuttal Accepted! Section 14 Justification established. Review restored with Gold Badge.');
+    showToast('Rebuttal Accepted! Tenant verified. Review restored with Gold Badge.');
     return true;
   };
 
-  // ODPC Right to be Forgotten (Panel 5)
+  // Right to be Forgotten / Data Erasure
   const rightToBeForgotten = (userId: string) => {
     const userToPurge = users.find((u) => u.id === userId);
     if (!userToPurge) return;
@@ -678,7 +678,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     // Asynchronously dispatch statutory erasure to FastAPI backend (HIGH-14)
     apiClient.forgetTenant(pseudonym, userId)
       .then((res) => {
-        showToast(`ODPC Section 40: ${res.count} reviews permanently shredded from server ledger.`);
+        showToast(`Privacy Erasure: ${res.count} reviews permanently removed from server ledger.`);
       })
       .catch((err) => {
         console.warn('Backend erasure sync notice:', err.message);
@@ -750,16 +750,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const auditRecord: CryptographicPartitionLog = {
       id: `log-${Date.now()}`,
       timestamp: new Date().toISOString(),
-      action: 'ODPC_RIGHT_TO_BE_FORGOTTEN',
+      action: 'DATA_ERASURE',
       pseudonym,
       identityFingerprint: fingerprint,
       encryptedSnippet: 'PURGED_ZERO_FILL',
-      legalBasis: 'Kenya Data Protection Act 2019 Section 40 (Right to Erasure)',
-      details: `User [${pseudonym}] invoked statutory Right to be Forgotten. All raw PII, encrypted vectors, and ${userToPurge.reviewsCount} authored reviews permanently purged from local state.`,
+      legalBasis: 'Privacy Protection & Data Erasure Protocol',
+      details: `User [${pseudonym}] requested complete data erasure. All personal contact info, encrypted vectors, and ${userToPurge.reviewsCount} authored reviews permanently purged from local state.`,
     };
     setCryptoLogs((prev) => [auditRecord, ...prev]);
 
-    showToast(`ODPC Section 40 Erasure Complete: All account data and reviews for ${pseudonym} purged.`);
+    showToast(`Data Erasure Complete: All account data and reviews for ${pseudonym} permanently purged.`);
     setActivePanelState('splash');
   };
 

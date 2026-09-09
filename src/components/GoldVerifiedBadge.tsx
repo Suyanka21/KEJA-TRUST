@@ -28,10 +28,10 @@ export const GoldVerifiedBadge: React.FC<GoldVerifiedBadgeProps> = ({
     <span
       id={id}
       className={`animate-gold-glint relative inline-flex items-center rounded-full font-bold bg-gradient-to-r from-amber-100 via-amber-200 to-amber-100 dark:from-amber-950 dark:via-amber-900 dark:to-amber-950 text-amber-950 dark:text-amber-200 border border-amber-300 dark:border-amber-700 shadow-xs select-none tracking-tight ${sizeClasses}`}
-      title="Tenancy verified via Safaricom M-Pesa transaction · Protected under Defamation Act Cap 36 Section 14 (Justification Defence)"
+      title="Tenancy verified via Safaricom M-Pesa transaction · M-Pesa Verified Renter"
     >
       <ShieldCheck className={`${iconSizes} text-amber-700 dark:text-amber-400 shrink-0`} />
-      <span className="truncate">Gold Verified Renter</span>
+      <span className="truncate">M-Pesa Verified Renter</span>
       <Sparkles className="w-3 h-3 text-amber-500 fill-amber-400 shrink-0 animate-pulse" />
       {showSubtext && (
         <span className="text-[10px] opacity-75 font-mono ml-1 hidden sm:inline">

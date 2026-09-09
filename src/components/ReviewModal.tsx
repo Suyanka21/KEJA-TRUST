@@ -163,19 +163,18 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
 
         {/* Scrollable Form Body */}
         <form onSubmit={handleSubmit} className="p-4 sm:p-6 overflow-y-auto space-y-6">
-          {/* Statutory Privacy & Anonymity Banner (ODPC 2019) */}
+          {/* Tenant Privacy & Anonymity Banner */}
           <div
-            id="odpc-privacy-banner"
+            id="tenant-privacy-banner"
             className="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs text-emerald-900 space-y-1"
           >
             <div className="flex items-center gap-2 font-bold text-emerald-950">
               <Lock className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Protected Under Kenya Data Protection Act 2019</span>
+              <span>100% Anonymous &amp; Private Review</span>
             </div>
             <p className="leading-relaxed text-emerald-800">
-              We operate under the Kenya Data Protection Act 2019. Your email and phone are completely encrypted; we
-              only display randomized pseudonyms (e.g., <strong>&apos;RoysambuRenter42&apos;</strong>) to protect you from
-              landlord retaliation.
+              Your phone and email are strictly encrypted and never shared with landlords. You post under a private
+              pseudonym (e.g., <strong>&apos;RoysambuRenter42&apos;</strong>) so you are completely safe from retaliation.
             </p>
           </div>
 
@@ -447,7 +446,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                 </p>
               ) : (
                 <p className="text-[11px] text-neutral-500 mt-1.5">
-                  Unlocks statutory protection under <strong>Defamation Act Cap 36 Section 14 (Justification Defence)</strong>.
+                  Unlocks the <strong>Gold Verified Renter Badge</strong> — giving your review maximum protection and credibility.
                 </p>
               )}
 
